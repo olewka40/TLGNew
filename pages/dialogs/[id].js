@@ -30,7 +30,7 @@ class Id extends Component {
     };
   }
 
-  // если у нас поменялась комната то обновим список сообщений, и присоеденим к новой комнате юзера
+  // если у нас поменялась комната то обновим список сообщений, и присоединим к новой комнате юзера
   componentDidUpdate(prevProps, nextProps) {
     const props = this.props;
     if (prevProps.data.dialogId !== props.data.dialogId) {

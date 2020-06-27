@@ -15,6 +15,7 @@ export const Sidebar = () => {
     await axios.get("/api/authorization/logout");
     router.replace("/login");
   }, []);
+
   return (
     <StyledSidebar opened={opened}>
       <Header>
@@ -32,7 +33,11 @@ export const Sidebar = () => {
             <SearchInput placeholder="  Найти..." />
           </OpenHidden>
 
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              router.push("/locked");
+            }}
+          >
             <OpenHidden opened={opened}>
               <LockOpenIcon style={{ color: "#6b757f" }} />
             </OpenHidden>
