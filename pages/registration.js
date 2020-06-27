@@ -153,20 +153,6 @@ export default function SignUp() {
               }}
             />
           </Grid>
-
-          {/*<Grid item xs={12}>*/}
-          {/*  <FormControlLabel*/}
-          {/*    control={*/}
-          {/*      <Checkbox*/}
-          {/*        value="remember"*/}
-          {/*        checked={rememberMe}*/}
-          {/*        onClick={() => setRemember(!rememberMe)}*/}
-          {/*        color="primary"*/}
-          {/*      />*/}
-          {/*    }*/}
-          {/*    label="Запомнить меня "*/}
-          {/*  />*/}
-          {/*</Grid>*/}
         </Grid>
         <Button
           type="submit"

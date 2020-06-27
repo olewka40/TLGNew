@@ -135,7 +135,7 @@ nextApp.prepare().then(() => {
 
     const getMessagesForDialogs = async () => {
       for (var i = 0; i < dialogs.length; i++) {
-        const dialog = dialogs[i];
+        const dialog = dialogs[i] || [];
         const lastMessages = await Database.message_provider.find({
           dialogId: dialog._id
         });

@@ -77,7 +77,6 @@ class Id extends Component {
 
   render() {
     const { messages } = this.state;
-    console.log(messages);
     return (
       <MessageContext.Provider value={{ messages }}>
         <DialogContainer />

@@ -11,9 +11,10 @@ class MessageProvider {
     this.messageDB.loadDatabase();
   }
 
-  async find(query) {
+  async find(query, modifiers) {
     return new Promise((resolve, reject) => {
       this.messageDB.find(query, (err, data) => {
+        modifiers && modifiers(err, data);
         // если ошибка тупо выходим
         if (err) return reject();
 

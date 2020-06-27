@@ -5,6 +5,7 @@ import { withRouter } from "next/router";
 import axios from "axios";
 import Head from "next/head";
 import "./emoji-mart.css";
+import "./scroll.css";
 
 axios.defaults.baseURL = "http://localhost:3000/";
 const GlobalStyle = createGlobalStyle`

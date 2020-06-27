@@ -63,7 +63,7 @@ const Header = styled.div`
   display: flex;
   justify-content: flex-start;
 `;
-const OpenHidden = styled.div`
+export const OpenHidden = styled.div`
   ${p =>
     !p.opened &&
     css`{

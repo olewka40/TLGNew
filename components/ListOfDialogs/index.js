@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { DialogsContext } from "../../context/listDialogs";
 import CheckIcon from "@material-ui/icons/Check";
 import SocketService from "../../services/SocketService";
+import Emoji from "react-emoji-render";
 
 const ListOfDialogs = props => {
   const {
@@ -24,12 +25,12 @@ const ListOfDialogs = props => {
 
   return (
     <List opened={opened}>
-      {dialogs.map(({ _id, avatar, login, message, time, readed }) => (
+      {dialogs.map(({ _id, avatar, name, message, time, readed }) => (
         <Dialog
           active={id == _id}
           key={_id}
           avatarImg={avatar}
-          userName={login}
+          name={name}
           dialogid={_id}
           message={message}
           time={time}
@@ -65,7 +66,7 @@ export const Dialog = ({
   dialogid,
   active,
   avatarImg,
-  userName,
+  name,
   message,
   time,
   readed
@@ -81,7 +82,7 @@ export const Dialog = ({
       <ImgAvatar src={avatarImg} />
       <DialogInfo>
         <TopInfo>
-          <UserName>{userName} </UserName>
+          <UserName>{name} </UserName>
 
           <MsgInfo>
             <CheckIcon style={{ color: "#6b757f" }} fontSize="small" />
@@ -89,7 +90,17 @@ export const Dialog = ({
           </MsgInfo>
         </TopInfo>
         <BotInfo>
-          <Message>{message}</Message>
+          <Message>
+            <Emoji
+              // options={{
+              //   baseUrl:
+              //     "cdn.jsdelivr.net/npm/emoji-mart@3.0.0/data/apple.json",
+              //   protocol: "https"
+
+              // }}
+              text={message}
+            />
+          </Message>
         </BotInfo>
       </DialogInfo>
     </DialogContainer>
@@ -113,6 +124,10 @@ const Message = styled.div`
   display: flex;
   align-items: flex-end;
   border-bottom: 1px solid gray;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 `;
 const DialogContainer = styled.div`
   display: flex;
@@ -127,7 +142,8 @@ const DialogContainer = styled.div`
 `;
 const DialogInfo = styled.div`
   display: flex;
-  width: 100%;
+  width: 30vh;
+  max-height: 60px;
   flex-direction: column;
   margin-left: 16px;
 `;

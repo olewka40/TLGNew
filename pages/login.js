@@ -15,7 +15,7 @@ import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-function Copyright() {
+const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
@@ -26,7 +26,7 @@ function Copyright() {
       {"."}
     </Typography>
   );
-}
+};
 
 const useStyles = makeStyles(theme => ({
   paper: {
