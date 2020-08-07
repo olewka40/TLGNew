@@ -183,10 +183,18 @@ async function initializeDB() {
       lastName: "1235",
       email: "1235@mail.ri"
     });
+    Database.user_provider.insert({
+      login: "1236",
+      password: "1236",
+      firstName: "1236",
+      lastName: "1236",
+      email: "1236@mail.ri"
+    });
   }
 
   if (!createdDialog) {
     Database.dialog_provider.insert({ name: "Squal", users: ["1234", "1235"] });
+    Database.dialog_provider.insert({ name: "Squal", users: ["1234", "1236"] });
   }
 
   if (!createdMessage) {
