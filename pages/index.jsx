@@ -1,4 +1,3 @@
-import { Component } from "react";
 import withContextPage from "../components/HOC/Page";
 import styled from "styled-components";
 const App = () => {

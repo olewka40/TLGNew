@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, memo, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,19 +14,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { useRouter } from "next/router";
-
-const Copyright = () => {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-};
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -48,22 +35,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function defaultRemember() {
+const defaultRemember = () => {
   if (process.browser) {
     return localStorage.getItem("rememberMe") || false;
   } else {
     return false;
   }
-}
-function defaultLogin() {
+};
+const defaultLogin = () => {
   if (process.browser) {
     return localStorage.getItem("rememberMeLogin") || "";
   } else {
     return "";
   }
-}
+};
 
-const LoginPage = () => {
+const LoginPage = memo(() => {
   const classes = useStyles();
   const [login, setLogin] = useState(defaultLogin);
   const [password, setPassword] = useState("");
@@ -157,10 +144,8 @@ const LoginPage = () => {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
+
     </Container>
   );
-};
+});
 export default LoginPage;

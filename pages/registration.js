@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, memo } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,19 +14,6 @@ import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Head from "next/head";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -48,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUp() {
+export const SignUp = memo(() => {
   const [login, setLogin] = useState();
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState();
@@ -172,9 +159,7 @@ export default function SignUp() {
           </Grid>
         </Grid>
       </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
+
     </Container>
   );
-}
+});
