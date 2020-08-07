@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import styled, { css } from "styled-components";
-import Header from "./header";
-import Footer from "./footer";
+import { Header } from "./header";
+import { Footer } from "./footer";
 import { MessageContext } from "../../context/messages";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import { UserContext } from "../../context/user";
@@ -12,7 +12,7 @@ import { MessageLayoutContext } from "../../context/messageLayoutContext";
 const avatarImg =
   "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d58c388e-ba39-4c44-b7cc-f946935e8cd5/d6flm7g-21fac699-362f-4190-b39d-85749643e55e.png/v1/fill/w_581,h_581,strp/biggrin_3d_by_alchemlst_d6flm7g-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTgxIiwicGF0aCI6IlwvZlwvZDU4YzM4OGUtYmEzOS00YzQ0LWI3Y2MtZjk0NjkzNWU4Y2Q1XC9kNmZsbTdnLTIxZmFjNjk5LTM2MmYtNDE5MC1iMzlkLTg1NzQ5NjQzZTU1ZS5wbmciLCJ3aWR0aCI6Ijw9NTgxIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.YQ05nFF8ssGlta8WheOeLw52XcP_tmlv7Dhdvg-sgTY";
 
-export const DialogContainer = () => {
+export const DialogContainer = memo(() => {
   const [isLayoutOpened, setLayoutOpened] = useState(false);
 
   return (
@@ -35,15 +35,7 @@ export const DialogContainer = () => {
                           <ImgAvatarCurrent src={avatarImg} />
                           <Messege>
                             <TextMessage>
-                              <Emoji
-                                // options={{
-                                //   baseUrl:
-                                //     "cdn.jsdelivr.net/npm/emoji-mart@3.0.0/data/apple.json",
-                                //   protocol: "https"
-
-                                // }}
-                                text={message.text}
-                              />
+                              <Emoji text={message.text} />
                             </TextMessage>
 
                             <Time>{message.time.format("H:mm")}</Time>
@@ -67,7 +59,7 @@ export const DialogContainer = () => {
       </OpenedDialog>
     </MessageLayoutContext.Provider>
   );
-};
+});
 
 const OpenedDialog = styled.div`
   display: flex;

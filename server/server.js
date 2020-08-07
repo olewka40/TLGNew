@@ -23,21 +23,31 @@ nextApp.prepare().then(() => {
   });
 
   app.post("/api/registration", async (req, res) => {
-    try {
-      const { login, password, firstName, lastName, email } = req.body;
+    if (
+      Database.user_provider.findOne({
+        login: req.body.login
+      })
+    ) {
+      console.log(
+        "Данный пользователь уже существует, попробуйте другой логин"
+      );
+    } else {
+      try {
+        const { login, password, firstName, lastName, email } = req.body;
 
-      Database.user_provider.insert({
-        login,
-        password,
-        firstName,
-        lastName,
-        email
-      });
+        Database.user_provider.insert({
+          login,
+          password,
+          firstName,
+          lastName,
+          email
+        });
 
-      res.json({ status: 200 });
-    } catch (err) {
-      console.log(err);
-      res.json({ stats: 404 });
+        res.json({ status: 200 });
+      } catch (err) {
+        console.log(err);
+        res.json({ stats: 404 });
+      }
     }
   });
   app.get("/api/authorization/:userName/:userPassword", async (req, res) => {
@@ -142,8 +152,8 @@ nextApp.prepare().then(() => {
 
         const lastMessage = lastMessages[lastMessages.length - 1];
 
-        dialog.message = lastMessage.text;
-        dialog.time = lastMessage.time;
+        dialog.message = lastMessage ? lastMessage.text : "";
+        dialog.time = lastMessage ? lastMessage.time : null;
       }
     };
     await getMessagesForDialogs();

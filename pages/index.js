@@ -1,19 +1,15 @@
 import { Component } from "react";
 import withContextPage from "../components/HOC/Page";
 import styled from "styled-components";
-class App extends Component {
-  render() {
-    return (
-      <>
-        <Container>
-          <MainDialog>
-            <Text>Выберите,кому хотели бы написать</Text>
-          </MainDialog>
-        </Container>
-      </>
-    );
-  }
-}
+const App = () => {
+  return (
+    <Container>
+      <MainDialog>
+        <Text>Выберите,кому хотели бы написать</Text>
+      </MainDialog>
+    </Container>
+  );
+};
 
 export default withContextPage(App);
 

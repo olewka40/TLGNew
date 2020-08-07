@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useMemo,
-  useRef,
-  useState
-} from "react";
+import React, { useCallback, useContext, memo, useRef, useState } from "react";
 import { IconButton } from "@material-ui/core";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import SendIcon from "@material-ui/icons/Send";
@@ -27,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default () => {
+export const Footer = memo(() => {
   const router = useRouter();
   const areaRef = useRef();
   const [message, SetMessage] = useState("");
@@ -115,7 +109,7 @@ export default () => {
       </IconButton>
     </MsgPlace>
   );
-};
+});
 const MsgPlace = styled.div`
   display: flex;
   background: #17212b;

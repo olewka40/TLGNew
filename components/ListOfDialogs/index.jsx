@@ -91,15 +91,7 @@ export const Dialog = ({
         </TopInfo>
         <BotInfo>
           <Message>
-            <Emoji
-              // options={{
-              //   baseUrl:
-              //     "cdn.jsdelivr.net/npm/emoji-mart@3.0.0/data/apple.json",
-              //   protocol: "https"
-
-              // }}
-              text={message}
-            />
+            <Emoji text={message} />
           </Message>
         </BotInfo>
       </DialogInfo>

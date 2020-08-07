@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, memo } from "react";
 import data from "emoji-mart/data/apple.json";
 import { NimblePicker } from "emoji-mart";
 import styled from "styled-components";
 import { MessageLayoutContext } from "../../context/messageLayoutContext";
 
-const EmojiBar = () => {
+const EmojiBar = memo(() => {
   const [chosenEmoji, setChosenEmoji] = useState(null);
   const { isLayoutOpened } = useContext(MessageLayoutContext);
   const onEmojiClick = (event, emojiObject) => {
@@ -26,7 +26,7 @@ const EmojiBar = () => {
       />
     </Container>
   );
-};
+});
 
 export default EmojiBar;
 

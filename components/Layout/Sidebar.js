@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, memo } from "react";
 import styled, { css } from "styled-components";
 import { IconButton } from "@material-ui/core";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import ListOfDialogs from "../ListOfDialogs";
 
-export const Sidebar = () => {
+export const Sidebar = memo(() => {
   const [opened, setOpen] = useState(true);
   const router = useRouter();
   const logout = useCallback(async () => {
@@ -52,7 +52,7 @@ export const Sidebar = () => {
       </Footer>
     </StyledSidebar>
   );
-};
+});
 
 const StyledSidebar = styled.div`
   display: flex;

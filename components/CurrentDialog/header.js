@@ -2,12 +2,12 @@ import { IconButton } from "@material-ui/core";
 import CallIcon from "@material-ui/icons/Call";
 import SearchIcon from "@material-ui/icons/Search";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { DialogsContext } from "../../context/listDialogs";
 import { useRouter } from "next/router";
 
-export default () => {
+export const Header = memo(() => {
   const router = useRouter();
   return (
     <DialogsContext.Consumer>
@@ -35,7 +35,7 @@ export default () => {
       }}
     </DialogsContext.Consumer>
   );
-};
+});
 
 const NavBar = styled.div`
   height: 48px;
