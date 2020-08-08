@@ -1,7 +1,6 @@
 import React, { memo, useCallback } from "react";
 import styled from "styled-components";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { Button, TextField, Link } from "@material-ui/core";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -14,29 +13,31 @@ export const Locked = memo(() => {
   }, []);
   return (
     <Container>
-      <StyledText>Введите код-пароль</StyledText>
-      <StyledInput>
-        <TextField
-          style={{ height: 60, width: 215 }}
-          id="outlined-basic"
-          label="Код доступа"
-          variant="outlined"
-          color="#2f6ea4"
-        />
-      </StyledInput>
-      <StyledButton>
-        <Button
-          style={{ width: 215, height: 60 }}
-          variant="contained"
-          size="large"
-          color="primary"
-        >
-          ПОДТВЕРДИТЬ
-        </Button>
-      </StyledButton>
-      <StyledA href="" onClick={logout}>
-        Выйти
-      </StyledA>
+      <LockedForm>
+        <StyledText>Введите код-пароль</StyledText>
+        <StyledInput>
+          <TextField
+            style={{ height: 60, width: 215 }}
+            id="outlined-basic"
+            label="Код доступа"
+            variant="outlined"
+            color="#2f6ea4"
+          />
+        </StyledInput>
+        <StyledButton>
+          <Button
+            style={{ width: 215, height: 60 }}
+            variant="contained"
+            size="large"
+            color="primary"
+          >
+            ПОДТВЕРДИТЬ
+          </Button>
+        </StyledButton>
+        <StyledLink href="/login" onClick={logout}>
+          Выйти
+        </StyledLink>
+      </LockedForm>
     </Container>
   );
 });
@@ -45,16 +46,15 @@ export default Locked;
 
 const Container = styled.div`
   background-color: #0e1621;
-  height: 100vh;
+  height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 const StyledText = styled.div`
   color: #e6f3fb;
-  margin-bottom: 50px;
-  margin-top: -225px;
+  margin-bottom: 20px;
   font-size: 20px;
 `;
 const StyledInput = styled.div`
@@ -63,8 +63,19 @@ const StyledInput = styled.div`
 const StyledButton = styled.div`
   margin: 5px;
 `;
-const StyledA = styled.a`
+const StyledLink = styled(Link)`
   margin: 5px;
-
-  color: #303f9f;
+  color: #0074c6;
+  :visited {
+    color: #0074c6;
+  }
+  :link {
+    color: #0074c6;
+  }
+`;
+const LockedForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;

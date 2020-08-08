@@ -13,6 +13,13 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    width: 100%;
+    
+  }
+  #__next {
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -20,12 +27,6 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: "#0074C6"
-    },
-    secondary: {
-      main: "rgba(42, 73, 94, 0.3)"
-    },
-    dot: {
-      main: "#F24646"
     }
   }
 });
