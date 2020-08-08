@@ -1,11 +1,12 @@
 import App from "next/app";
 import React from "react";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import { withRouter } from "next/router";
 import axios from "axios";
 import Head from "next/head";
 import "./emoji-mart.css";
 import "./scroll.css";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles/";
 
 axios.defaults.baseURL = "http://localhost:3000/";
 const GlobalStyle = createGlobalStyle`
@@ -15,11 +16,19 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const theme = {
-  colors: {
-    primary: "#0070f3"
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#0074C6"
+    },
+    secondary: {
+      main: "rgba(42, 73, 94, 0.3)"
+    },
+    dot: {
+      main: "#F24646"
+    }
   }
-};
+});
 
 class MyApp extends App {
   componentDidMount() {

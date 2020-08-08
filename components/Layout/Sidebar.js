@@ -94,7 +94,7 @@ const SearchInput = styled.input`
   height: 30px;
   border-radius: 5px;
   margin-top: 10px;
-  border: 0px;
+  border: 0;
   background-color: #232f3d;
   color: white;
 `;

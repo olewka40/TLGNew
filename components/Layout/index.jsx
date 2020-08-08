@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Sidebar } from "./Sidebar";
+import React, { memo } from "react";
 
-export const Layout = props => {
+export const Layout = memo(props => {
   const { children, isLogin } = props;
   return (
     <StyledLayout>
@@ -9,7 +10,7 @@ export const Layout = props => {
       {children}
     </StyledLayout>
   );
-};
+});
 
 const StyledLayout = styled.div`
   position: relative;
