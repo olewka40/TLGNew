@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.10.3",
+    "@material-ui/styles": "^4.10.0",
     "emoji-mart": "^2.11.2",
     "formidable": "^1.2.2",
     "nodemon": "^2.0.4"

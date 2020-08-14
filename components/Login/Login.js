@@ -31,7 +31,7 @@ const defaultLogin = () => {
   }
 };
 
-export const Login = memo(() => {
+export const Login = memo((callback, deps) => {
   const [login, setLogin] = useState(defaultLogin);
   const [password, setPassword] = useState("");
   const [rememberMe, setRemember] = useState(defaultRemember);
@@ -47,7 +47,7 @@ export const Login = memo(() => {
       }
       router.replace("/");
     }
-  });
+  }, []);
 
   return (
     <Container>

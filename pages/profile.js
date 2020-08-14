@@ -1,20 +1,8 @@
-import React, { memo } from "react";
-import axios from "axios";
-import withContextPage from "../components/HOC/Page";
+import React from "react";
+import { Profile } from "../components/Profile/index";
 
-const Profile = memo(() => {
-  // static async getInitialProps() {
-  //   const { data } = await axios.get("http://localhost:3000/api/user");
-  //   return { user: data };
-  // }
+const ProfilePage = () => {
+  return <Profile />;
+};
 
-  return (
-    <div>
-      Имя
-      <hr />
-      Возраст
-    </div>
-  );
-});
-
-export default withContextPage(Profile);
+export default ProfilePage;
