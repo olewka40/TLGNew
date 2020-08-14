@@ -1,39 +1,35 @@
+import React, { memo, useContext } from "react";
 import { IconButton } from "@material-ui/core";
 import CallIcon from "@material-ui/icons/Call";
 import SearchIcon from "@material-ui/icons/Search";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import React, { memo } from "react";
 import styled from "styled-components";
 import { DialogsContext } from "../../context/listDialogs";
 import { useRouter } from "next/router";
 
 export const Header = memo(() => {
   const router = useRouter();
+  const { dialogs } = useContext(DialogsContext);
+  const dialog = dialogs.find(dialog => dialog._id === router.query.id);
+
   return (
-    <DialogsContext.Consumer>
-      {({ dialogs }) => {
-        const dialog = dialogs.find(dialog => dialog._id === router.query.id);
-        return (
-          <NavBar>
-            <Profile>
-              <UserName>{dialog.name}</UserName>
-              <LastOnline>вчера в 18:24</LastOnline>
-            </Profile>
-            <NavBarIcons>
-              <IconButton>
-                <CallIcon style={{ color: "#6b757f" }} />
-              </IconButton>
-              <IconButton>
-                <SearchIcon style={{ color: "#6b757f" }} />
-              </IconButton>
-              <IconButton>
-                <MoreVertIcon style={{ color: "#6b757f" }} />
-              </IconButton>
-            </NavBarIcons>
-          </NavBar>
-        );
-      }}
-    </DialogsContext.Consumer>
+    <NavBar>
+      <Profile>
+        <UserName>{dialog.name}</UserName>
+        <LastOnline>вчера в 18:24</LastOnline>
+      </Profile>
+      <NavBarIcons>
+        <IconButton>
+          <CallIcon color="primary" />
+        </IconButton>
+        <IconButton>
+          <SearchIcon color="primary" />
+        </IconButton>
+        <IconButton>
+          <MoreVertIcon color="primary" />
+        </IconButton>
+      </NavBarIcons>
+    </NavBar>
   );
 });
 

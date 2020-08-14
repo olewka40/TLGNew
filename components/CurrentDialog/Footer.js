@@ -12,15 +12,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextareaAutosize from "react-textarea-autosize";
 import { MessageLayoutContext } from "../../context/messageLayoutContext";
 
-const useStyles = makeStyles(theme => ({
-  popover: {
-    pointerEvents: "none"
-  },
-  popoverContent: {
-    pointerEvents: "auto"
-  }
-}));
-
 export const Footer = memo(() => {
   const router = useRouter();
   const areaRef = useRef();
@@ -55,16 +46,14 @@ export const Footer = memo(() => {
   const onMouseLeave = useCallback(() => {
     setHovered(false);
   }, []);
-  const classes = useStyles();
 
   return (
     <MsgPlace>
       <IconButton>
-        <AttachFileIcon style={{ color: "#6b757f" }} />
+        <AttachFileIcon color="primary" />
       </IconButton>
       <StyledTextArea>
         <TextareaAutosize
-          style={{ height: 100 }}
           className="area"
           wrap="soft"
           id="name"
@@ -77,12 +66,8 @@ export const Footer = memo(() => {
       </StyledTextArea>
 
       <IconButton onMouseMove={onMouseOver} onMouseLeave={onMouseLeave}>
-        <MoodIcon style={{ color: "#6b757f" }} onClick={triggerPicker} />
+        <MoodIcon color="primary" onClick={triggerPicker} />
         <Popover
-          className={classes.popover}
-          classes={{
-            paper: classes.popoverContent
-          }}
           open={isHovered}
           anchorReference="anchorPosition"
           anchorPosition={{ top: 875, left: 1920 }}
@@ -105,7 +90,7 @@ export const Footer = memo(() => {
         </Popover>
       </IconButton>
       <IconButton onClick={onSend}>
-        <SendIcon style={{ color: "#6b757f" }} />
+        <SendIcon color="primary" />
       </IconButton>
     </MsgPlace>
   );

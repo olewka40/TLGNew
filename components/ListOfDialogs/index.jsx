@@ -85,7 +85,7 @@ export const Dialog = ({
           <UserName>{name} </UserName>
 
           <MsgInfo>
-            <CheckIcon style={{ color: "#6b757f" }} fontSize="small" />
+            <CheckIcon color="primary" fontSize="small" />
             <Time>{time.format("H:m")}</Time>
           </MsgInfo>
         </TopInfo>

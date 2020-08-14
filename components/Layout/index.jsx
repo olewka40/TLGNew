@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Sidebar } from "./Sidebar";
+import { Sidebar } from "./Sidebar/Sidebar";
 import React, { memo } from "react";
 
 export const Layout = memo(props => {
