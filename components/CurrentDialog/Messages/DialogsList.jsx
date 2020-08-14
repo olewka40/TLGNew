@@ -10,6 +10,7 @@ import {
   Readed
 } from "./styled";
 import { UserContext } from "../../../context/user";
+import Moment from "react-moment";
 
 export const DialogsList = memo(({ message }) => {
   const avatarImg =
@@ -23,7 +24,9 @@ export const DialogsList = memo(({ message }) => {
         <TextMessage>
           <Emoji text={message.text} />
         </TextMessage>
-        <Time>{message.time.format("H:mm")}</Time>
+        <Time>
+          <Moment format="HH:mm">{message.time}</Moment>
+        </Time>
         <Readed>
           {/*<CheckIcon color={"primary"} />*/}
           <DoneAllIcon color="primary" />

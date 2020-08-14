@@ -39,6 +39,7 @@
     "@material-ui/styles": "^4.10.0",
     "emoji-mart": "^2.11.2",
     "formidable": "^1.2.2",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "react-moment": "^0.9.7"
   }
 }

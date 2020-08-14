@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import CheckIcon from "@material-ui/icons/Check";
 import Emoji from "react-emoji-render";
 import React from "react";
+import Moment from "react-moment";
 import {
   DialogContainer,
   ImgAvatar,
@@ -38,7 +39,9 @@ export const Dialog = ({
 
           <MsgInfo>
             <CheckIcon color="primary" fontSize="small" />
-            <Time>{time.format("H:m")}</Time>
+            <Time>
+              <Moment format="HH:mm">{time}</Moment>
+            </Time>
           </MsgInfo>
         </TopInfo>
         <BotInfo>
