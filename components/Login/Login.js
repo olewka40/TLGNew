@@ -31,13 +31,16 @@ const defaultLogin = () => {
   }
 };
 
-export const Login = memo((callback, deps) => {
+export const Login = (callback, deps) => {
   const [login, setLogin] = useState(defaultLogin);
   const [password, setPassword] = useState("");
   const [rememberMe, setRemember] = useState(defaultRemember);
   const router = useRouter();
   const tryAuth = useCallback(async () => {
-    const { data } = await axios.get(`api/authorization/${login}/${password}`);
+    const { data } = await axios.get(
+      `http://localhost:3000/api/authorization/${login}/${password}`
+    );
+    console.log(data);
     if (data && data.status === 200) {
       localStorage.setItem("rememberMe", rememberMe);
       if (!rememberMe) {
@@ -120,5 +123,5 @@ export const Login = memo((callback, deps) => {
       </LoginForm>
     </Container>
   );
-});
+};
 export default Login;

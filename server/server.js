@@ -30,78 +30,6 @@ nextApp.prepare().then(() => {
       createParentPath: true
     })
   );
-  // upload single file
-  app.post("/upload-file", async (req, res) => {
-    try {
-      if (!req.files) {
-        res.send({
-          status: false,
-          message: "No file uploaded"
-        });
-      } else {
-        //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-        let avatar = req.files.avatar;
-
-        //Use the mv() method to place the file in upload directory (i.e. "uploads")
-        avatar.mv("./uploads/" + avatar.name);
-
-        //send response
-        res.send({
-          status: true,
-          message: "File is uploaded",
-          data: {
-            name: avatar.name,
-            mimetype: avatar.mimetype,
-            size: avatar.size
-          }
-        });
-      }
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  });
-
-  // upload multiple files
-  app.post("/api/upload-photos", async (req, res) => {
-    console.log(req);
-    try {
-      if (!req.files) {
-        res.send({
-          status: false,
-          message: "No file uploaded"
-        });
-      } else {
-        let data = [];
-        console.log(req.files, "123", _.keysIn(req.files));
-
-        //loop all files
-        _.forEach(_.keysIn(req.files), key => {
-          let photo = req.files[key];
-
-          //move photo to upload directory
-          photo.mv("./uploads/" + photo.name);
-
-          //push file details
-          data.push({
-            name: photo.name,
-            link: photo.name
-          });
-        });
-
-        //return response
-        res.send({
-          status: true,
-          message: "Files are uploaded",
-          data: data
-        });
-      }
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  });
-
-  //make uploads directory static
-  app.use("/api/files", express.static("uploads"));
 
   app.get("/api/authorization/logout", (req, res) => {
     res.clearCookie("userId");
@@ -212,7 +140,85 @@ nextApp.prepare().then(() => {
     console.log("a user connected");
   });
 
-  app.get("/api/user-image/:userid", (req, res) => {});
+  // upload single file
+  app.post("/upload-file", async (req, res) => {
+    try {
+      if (!req.files) {
+        res.send({
+          status: false,
+          message: "No file uploaded"
+        });
+      } else {
+        //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+        let avatar = req.files.avatar;
+
+        //Use the mv() method to place the file in upload directory (i.e. "uploads")
+        avatar.mv("./uploads/" + avatar.name);
+
+        //send response
+        res.send({
+          status: true,
+          message: "File is uploaded",
+          data: {
+            name: avatar.name,
+            mimetype: avatar.mimetype,
+            size: avatar.size
+          }
+        });
+      }
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  });
+
+  // upload multiple files
+  app.post("/api/upload-photos", async (req, res) => {
+    const userId = req.cookies.userId;
+    console.log(userId, "123123");
+    try {
+      if (!req.files) {
+        res.send({
+          status: false,
+          message: "No file uploaded"
+        });
+      } else {
+        let data = [];
+
+        //loop all files
+        _.forEach(_.keysIn(req.files), key => {
+          let photo = req.files[key];
+
+          //move photo to upload directory
+          photo.mv(`./uploads/${userId}/` + photo.name);
+
+          //push file details
+          data.push({
+            name: photo.name,
+            link: photo.name
+          });
+          const link = `/api/files/${photo.name}`;
+          Database.user_provider.update(
+            { userId: userId },
+            { $set: { avatar: link } },
+            { multi: true },
+            function(err, numReplaced) {}
+          );
+        });
+
+        //return response
+        res.send({
+          status: true,
+          message: "Files are uploaded",
+          data: data
+        });
+      }
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  });
+
+  //make uploads directory static
+  app.use("/api/files", express.static("uploads"));
 
   app.get("/api/getMessages/:dialogid", async (req, res) => {
     const { dialogid } = req.params;
@@ -222,6 +228,19 @@ nextApp.prepare().then(() => {
     res.json({
       dialogId: dialogid,
       messages: messages
+    });
+  });
+  app.get("/api/files/user-image/:userid", (req, res) => {});
+
+  app.get("/api/getUserInfo", async (req, res) => {
+    const userid = req.cookies.userId;
+    console.log(userid);
+    const userInfo = await Database.user_provider.find({
+      _id: userid
+    });
+
+    res.json({
+      userInfo: userInfo
     });
   });
 
@@ -270,6 +289,7 @@ async function initializeDB() {
       password: "1234",
       firstName: "1234",
       lastName: "1234",
+      avatar: "",
       email: "123@mail.ri"
     });
     Database.user_provider.insert({
@@ -277,6 +297,7 @@ async function initializeDB() {
       password: "1235",
       firstName: "1235",
       lastName: "1235",
+      avatar: "",
       email: "1235@mail.ri"
     });
     Database.user_provider.insert({
@@ -284,6 +305,7 @@ async function initializeDB() {
       password: "1236",
       firstName: "1236",
       lastName: "1236",
+      avatar: "",
       email: "1236@mail.ri"
     });
   }

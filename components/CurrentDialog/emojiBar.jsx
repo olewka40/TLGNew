@@ -9,7 +9,6 @@ const EmojiBar = memo(() => {
   const { isLayoutOpened } = useContext(MessageLayoutContext);
   const onEmojiClick = (event, emojiObject) => {
     setChosenEmoji(emojiObject);
-    console.log(setChosenEmoji(emojiObject));
   };
   if (!isLayoutOpened) {
     return null;

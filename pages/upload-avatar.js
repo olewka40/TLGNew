@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 
-const FileUpload = () => {
+export const FileUpload = () => {
   const [files, setFiles] = useState(""); // storing the uploaded file    // storing the recived file from backend
   const [data, getFile] = useState([{ name: "", path: "" }]);
   const [progress, setProgress] = useState(0); // progess bar
@@ -10,7 +10,6 @@ const FileUpload = () => {
   const handleChange = e => {
     setProgress(0);
     const files = e.target.files; // accesing file
-    console.log(files);
     setFiles(files); // storing file
   };
   const uploadFile = () => {
@@ -29,27 +28,21 @@ const FileUpload = () => {
         }
       })
       .then(res => {
-        console.log(res);
         getFile({
-          name: res.data.name,
-          path: "http://localhost:3000" + res.data.path
+          name: res.data.data[0].name,
+          path: "http://localhost:3000/api/files/" + res.data.data[0].name
         });
       })
       .catch(err => console.log(err));
   };
   return (
     <div>
-      <input multiple type="file" ref={el} onChange={handleChange} />
-      <div style={{ width: progress }}>{progress}</div>
+      <input type="file" ref={el} onChange={handleChange} />
+      <div>{progress}</div>
       <button onClick={uploadFile}>Upload</button>
       <hr />
       {/* displaying received image*/}
-      {data.path && (
-        <img
-          src="http://localhost:3000/api/files/Capture001.png"
-          alt={data.name}
-        />
-      )}
+      {data.path && <img src={data.path} alt={data.name} />}
     </div>
   );
 };

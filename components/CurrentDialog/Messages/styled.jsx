@@ -49,10 +49,7 @@ export const Readed = styled.div`
 `;
 export const ImgAvatarCurrent = styled.img`
   border-radius: 50px;
-  margin-top: 8px;
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-bottom: 5px;
+  margin: 8px 5px 5px;
   height: 25px;
   width: 25px;
 `;

@@ -10,6 +10,10 @@ import { OpenedDialog, MainItems, Messeges } from "./styled";
 export const DialogContainer = memo(() => {
   const [isLayoutOpened, setLayoutOpened] = useState(false);
   const { messages } = useContext(MessageContext);
+  const data = messages.sort((a, b) => (a.time > b.time ? 1 : -1));
+  console.log(messages);
+  console.log(data);
+
   return (
     <MessageLayoutContext.Provider value={{ isLayoutOpened, setLayoutOpened }}>
       <OpenedDialog>
