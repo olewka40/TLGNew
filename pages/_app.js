@@ -31,7 +31,7 @@ const theme = createMuiTheme({
   }
 });
 
-class MyApp extends App {
+class Telegramm extends App {
   componentDidMount() {
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles && jssStyles.parentNode)
@@ -54,4 +54,4 @@ class MyApp extends App {
   }
 }
 
-export default withRouter(MyApp);
+export default withRouter(Telegramm);

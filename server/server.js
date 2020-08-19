@@ -1,14 +1,20 @@
 const app = require("express")();
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
 const next = require("next");
-var cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 const Database = require("./Database");
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
+
+const fileUpload = require("express-fileupload");
+const cors = require("cors");
+const morgan = require("morgan");
+const _ = require("lodash");
+const express = require("express/lib/express");
 
 initializeDB();
 
@@ -16,6 +22,86 @@ app.use(cookieParser());
 nextApp.prepare().then(() => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  //add other middleware
+  app.use(cors());
+  app.use(morgan("dev"));
+  app.use(
+    fileUpload({
+      createParentPath: true
+    })
+  );
+  // upload single file
+  app.post("/upload-file", async (req, res) => {
+    try {
+      if (!req.files) {
+        res.send({
+          status: false,
+          message: "No file uploaded"
+        });
+      } else {
+        //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+        let avatar = req.files.avatar;
+
+        //Use the mv() method to place the file in upload directory (i.e. "uploads")
+        avatar.mv("./uploads/" + avatar.name);
+
+        //send response
+        res.send({
+          status: true,
+          message: "File is uploaded",
+          data: {
+            name: avatar.name,
+            mimetype: avatar.mimetype,
+            size: avatar.size
+          }
+        });
+      }
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  });
+
+  // upload multiple files
+  app.post("/api/upload-photos", async (req, res) => {
+    console.log(req);
+    try {
+      if (!req.files) {
+        res.send({
+          status: false,
+          message: "No file uploaded"
+        });
+      } else {
+        let data = [];
+        console.log(req.files, "123", _.keysIn(req.files));
+
+        //loop all files
+        _.forEach(_.keysIn(req.files), key => {
+          let photo = req.files[key];
+
+          //move photo to upload directory
+          photo.mv("./uploads/" + photo.name);
+
+          //push file details
+          data.push({
+            name: photo.name,
+            link: photo.name
+          });
+        });
+
+        //return response
+        res.send({
+          status: true,
+          message: "Files are uploaded",
+          data: data
+        });
+      }
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  });
+
+  //make uploads directory static
+  app.use("/api/files", express.static("uploads"));
 
   app.get("/api/authorization/logout", (req, res) => {
     res.clearCookie("userId");
@@ -24,7 +110,7 @@ nextApp.prepare().then(() => {
 
   app.post("/api/registration", async (req, res) => {
     if (
-      Database.user_provider.findOne({
+      await Database.user_provider.findOne({
         login: req.body.login
       })
     ) {
