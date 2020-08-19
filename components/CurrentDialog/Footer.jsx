@@ -1,21 +1,20 @@
-import React, { useCallback, useContext, memo, useRef, useState } from "react";
-import { IconButton } from "@material-ui/core";
+import React, { memo, useCallback, useContext, useRef, useState } from "react";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import SendIcon from "@material-ui/icons/Send";
 import MoodIcon from "@material-ui/icons/Mood";
 import styled from "styled-components";
 import SocketService from "../../services/SocketService";
-import { Picker, Emoji } from "emoji-mart";
-import Popover from "@material-ui/core/Popover";
 import { useRouter } from "next/router";
-import { makeStyles } from "@material-ui/core/styles";
 import TextareaAutosize from "react-textarea-autosize";
 import { MessageLayoutContext } from "../../context/messageLayoutContext";
 
-export const Footer = memo(() => {
+import { Popover, IconButton } from "@material-ui/core";
+import { EmojiTabs } from "./emojiTabs";
+
+export const Footer = () => {
   const router = useRouter();
   const areaRef = useRef();
-  const [message, SetMessage] = useState("");
+  const [message, setMessage] = useState("");
   const onSend = useCallback(() => {
     if (!areaRef.current.value) return;
 
@@ -25,7 +24,7 @@ export const Footer = memo(() => {
       message: areaRef.current.value
     });
     areaRef.current.value = "";
-    SetMessage("");
+    setMessage("");
   }, [router.query.id]);
 
   const { isLayoutOpened, setLayoutOpened } = useContext(MessageLayoutContext);
@@ -39,14 +38,14 @@ export const Footer = memo(() => {
   );
   const onMouseOver = useCallback(() => {
     if (isLayoutOpened) {
-      return;
+      return null;
+    } else {
+      setHovered(true);
     }
-    setHovered(true);
   }, [isHovered]);
   const onMouseLeave = useCallback(() => {
     setHovered(false);
   }, []);
-
   return (
     <MsgPlace>
       <IconButton>
@@ -54,19 +53,24 @@ export const Footer = memo(() => {
       </IconButton>
       <StyledTextArea>
         <TextareaAutosize
+          style={{ height: 100 }}
           className="area"
           wrap="soft"
           id="name"
           type="text"
           aria-describedby="name-desc"
           value={message}
-          onChange={event => SetMessage(event.target.value)}
+          onChange={event => setMessage(event.target.value)}
           ref={areaRef}
         />
       </StyledTextArea>
 
-      <IconButton onMouseMove={onMouseOver} onMouseLeave={onMouseLeave}>
-        <MoodIcon color="primary" onClick={triggerPicker} />
+      <IconButton
+        onMouseMove={onMouseOver}
+        onMouseLeave={onMouseLeave}
+        onClick={triggerPicker}
+      >
+        <MoodIcon color="primary" />
         <Popover
           open={isHovered}
           anchorReference="anchorPosition"
@@ -80,13 +84,7 @@ export const Footer = memo(() => {
             horizontal: "right"
           }}
         >
-          <Picker
-            style={{ height: 750, borderRadius: 3, overflowY: "hidden" }}
-            title="Pick your emoji…"
-            emoji="point_up"
-            set="apple"
-            onSelect={emoji => SetMessage(message + emoji.colons)}
-          />
+          <EmojiTabs setMessage={setMessage} message={message} />
         </Popover>
       </IconButton>
       <IconButton onClick={onSend}>
@@ -94,7 +92,8 @@ export const Footer = memo(() => {
       </IconButton>
     </MsgPlace>
   );
-});
+};
+
 const MsgPlace = styled.div`
   display: flex;
   background: #17212b;

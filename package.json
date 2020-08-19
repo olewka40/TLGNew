@@ -44,6 +44,7 @@
     "emoji-mart": "^2.11.2",
     "formidable": "^1.2.2",
     "nodemon": "^2.0.4",
+    "prop-types": "^15.7.2",
     "react-moment": "^0.9.7"
   }
 }

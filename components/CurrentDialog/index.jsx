@@ -26,7 +26,7 @@ export const DialogContainer = memo(() => {
           </Messeges>
           <Footer />
         </MainItems>
-        <EmojiBar />
+        {isLayoutOpened && <EmojiBar />}
       </OpenedDialog>
     </MessageLayoutContext.Provider>
   );
