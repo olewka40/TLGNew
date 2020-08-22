@@ -22,7 +22,8 @@ export const Dialog = ({
   name,
   message,
   time,
-  readed
+  readed,
+  opened
 }) => {
   const router = useRouter();
   return (
@@ -33,23 +34,25 @@ export const Dialog = ({
       }}
     >
       <ImgAvatar src={avatarImg} />
-      <DialogInfo>
-        <TopInfo>
-          <UserName>{name} </UserName>
+      {opened && (
+        <DialogInfo>
+          <TopInfo>
+            <UserName>{name} </UserName>
 
-          <MsgInfo>
-            <CheckIcon color="primary" fontSize="small" />
-            <Time>
-              <Moment format="HH:mm">{time}</Moment>
-            </Time>
-          </MsgInfo>
-        </TopInfo>
-        <BotInfo>
-          <Message>
-            <Emoji text={message} />
-          </Message>
-        </BotInfo>
-      </DialogInfo>
+            <MsgInfo>
+              <CheckIcon color="primary" fontSize="small" />
+              <Time>
+                <Moment format="HH:mm">{time}</Moment>
+              </Time>
+            </MsgInfo>
+          </TopInfo>
+          <BotInfo>
+            <Message>
+              <Emoji text={message} />
+            </Message>
+          </BotInfo>
+        </DialogInfo>
+      )}
     </DialogContainer>
   );
 };

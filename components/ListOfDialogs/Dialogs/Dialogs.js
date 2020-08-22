@@ -24,7 +24,7 @@ export const Dialogs = memo(props => {
   return (
     <List opened={opened}>
       {dialogs.map(({ _id, avatar, name, message, time, readed }) => (
-        <Dialog
+        <Dialog opened={opened}
           active={id === _id}
           key={_id}
           avatarImg={avatar}

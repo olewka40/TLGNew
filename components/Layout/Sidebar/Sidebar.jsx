@@ -37,19 +37,18 @@ export const Sidebar = memo(() => {
           >
             <Menu />
           </IconButton>
-          <OpenHidden opened={opened}>
-            <SearchInput placeholder="  Найти..." />
-          </OpenHidden>
-
-          <IconButton
-            onClick={() => {
-              router.push("/locked");
-            }}
-          >
-            <OpenHidden opened={opened}>
-              <LockOpenIcon color="primary" />
-            </OpenHidden>
-          </IconButton>
+          {opened && (
+            <>
+              <SearchInput placeholder="  Найти..." />
+              <IconButton
+                onClick={() => {
+                  router.push("/locked");
+                }}
+              >
+                <LockOpenIcon color="primary" />
+              </IconButton>
+            </>
+          )}
         </StyledToolbar>
       </Header>
       <Main>
