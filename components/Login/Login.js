@@ -37,10 +37,7 @@ export const Login = (callback, deps) => {
   const [rememberMe, setRemember] = useState(defaultRemember);
   const router = useRouter();
   const tryAuth = useCallback(async () => {
-    const { data } = await axios.get(
-      `http://localhost:3000/api/authorization/${login}/${password}`
-    );
-    console.log(data);
+    const { data } = await axios.get(`api/authorization/${login}/${password}`);
     if (data && data.status === 200) {
       localStorage.setItem("rememberMe", rememberMe);
       if (!rememberMe) {
@@ -50,7 +47,7 @@ export const Login = (callback, deps) => {
       }
       router.replace("/");
     }
-  }, []);
+  });
 
   return (
     <Container>
