@@ -9,7 +9,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { MessageLayoutContext } from "../../context/messageLayoutContext";
 
 import { Popover, IconButton } from "@material-ui/core";
-import { EmojiTabs } from "./emojiTabs";
+import { EmojiBar } from "./EmojiBar";
 
 export const Footer = () => {
   const router = useRouter();
@@ -53,7 +53,6 @@ export const Footer = () => {
       </IconButton>
       <StyledTextArea>
         <TextareaAutosize
-          style={{ height: 100 }}
           className="area"
           wrap="soft"
           id="name"
@@ -84,7 +83,7 @@ export const Footer = () => {
             horizontal: "right"
           }}
         >
-          <EmojiTabs setMessage={setMessage} message={message} />
+          <EmojiBar setMessage={setMessage} message={message} />
         </Popover>
       </IconButton>
       <IconButton onClick={onSend}>

@@ -34,7 +34,7 @@ export const Message = styled.div`
 `;
 export const DialogInfo = styled.div`
   display: flex;
-  width: 30vh;
+  width: 100%;
   max-height: 60px;
   flex-direction: column;
   margin-left: 16px;

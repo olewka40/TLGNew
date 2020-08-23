@@ -11,10 +11,9 @@ import {
 } from "./styled";
 import { UserContext } from "../../../context/user";
 import Moment from "react-moment";
+import { avatarImg } from "../../constants";
 
 export const DialogsList = memo(({ message }) => {
-  const avatarImg =
-    "https://static10.tgstat.ru/channels/_0/be/be7c19a29e937067566fb2380baca39c.jpg";
   const { userId } = useContext(UserContext);
 
   return (

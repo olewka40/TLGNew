@@ -16,7 +16,7 @@ const StyledLayout = styled.div`
   position: relative;
   background-color: #17212b;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: row;
 `;

@@ -14,11 +14,12 @@ import {
   BotInfo,
   Message
 } from "./styled";
+import { avatarImg } from "../../constants";
 
 export const Dialog = ({
   dialogid,
   active,
-  avatarImg,
+  // avatarImg,
   name,
   message,
   time,

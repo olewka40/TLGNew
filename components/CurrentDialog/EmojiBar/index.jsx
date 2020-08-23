@@ -1,15 +1,15 @@
-import { Popover, Tab, Tabs } from "@material-ui/core";
-import { Picker } from "emoji-mart";
+import { Tab, Tabs } from "@material-ui/core";
 import React, { Fragment, memo } from "react";
 import PropTypes from "prop-types";
-
-export const EmojiTabs = ({ setMessage }, message) => {
+import { EmojiTabsContainer } from "./styled";
+import { EmojiPicker } from "./EmojiPicker";
+export const EmojiBar = ({ setMessage }, message) => {
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
-    <>
+    <EmojiTabsContainer>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -23,17 +23,7 @@ export const EmojiTabs = ({ setMessage }, message) => {
         <Tab style={{ minWidth: "100px" }} label="gifs" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <Picker
-          style={{
-            width: 300,
-            borderRadius: 3,
-            overflowY: "hidden"
-          }}
-          title="Pick your emoji…"
-          emoji="point_up"
-          set="apple"
-          onSelect={emoji => setMessage(message + emoji.colons)}
-        />
+        <EmojiPicker setMessage={setMessage} message={message} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Стикеры
@@ -41,9 +31,10 @@ export const EmojiTabs = ({ setMessage }, message) => {
       <TabPanel value={value} index={2}>
         Гифки
       </TabPanel>
-    </>
+    </EmojiTabsContainer>
   );
 };
+
 const TabPanel = props => {
   const { children, value, index, ...other } = props;
 
