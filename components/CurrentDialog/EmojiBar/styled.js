@@ -7,3 +7,12 @@ export const EmojiTabsContainer = styled.div`
   color: #0074c6;
   height: 100%;
 `;
+export const EmojiPickerContainer = styled.div`
+  height: calc(100% - 48px);
+
+  .emoji-mart {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+  }
+`;

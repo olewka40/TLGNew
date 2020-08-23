@@ -185,27 +185,28 @@ nextApp.prepare().then(() => {
         let data = [];
 
         //loop all files
-        _.forEach(_.keysIn(req.files), key => {
+        _.forEach(_.keysIn(req.files), async key => {
           let photo = req.files[key];
 
           //move photo to upload directory
           photo.mv(`./uploads/${userId}/` + photo.name);
 
           //push file details
+
+          const link = `/${userId}/${photo.name}`;
           data.push({
             name: photo.name,
-            link: photo.name
+            link
           });
-          const link = `/api/files/${photo.name}`;
-          Database.user_provider.update(
-            { userId: userId },
+          await Database.user_provider.update(
+            { _id: userId },
             { $set: { avatar: link } },
-            { multi: true },
-            function(err, numReplaced) {}
+            { multi: true }
           );
         });
 
         //return response
+
         res.send({
           status: true,
           message: "Files are uploaded",

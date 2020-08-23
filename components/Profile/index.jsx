@@ -3,7 +3,7 @@ import styled from "styled-components";
 import FileUpload from "../../pages/upload-avatar";
 import axios from "axios";
 import { Button, Card } from "@material-ui/core";
-import {StyledButton} from "../Registration/styled";
+import { StyledButton } from "../Registration/styled";
 
 export const Profile = () => {
   const [profileInfo, setProfileInfo] = useState({});
@@ -29,7 +29,7 @@ export const Profile = () => {
           <Text> firstName: {profileInfo.firstName}</Text>
           <Text> _id: {profileInfo._id}</Text>
           <img
-            src={`http://localhost:3000/api/files/${profileInfo._id}`}
+            src={`http://localhost:3000/api/files/${profileInfo.avatar}`}
             alt="Avatar"
           />
         </Info>

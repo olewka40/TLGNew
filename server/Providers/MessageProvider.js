@@ -13,14 +13,17 @@ class MessageProvider {
 
   async find(query, modifiers) {
     return new Promise((resolve, reject) => {
-      this.messageDB.find(query, (err, data) => {
-        modifiers && modifiers(err, data);
-        // если ошибка тупо выходим
-        if (err) return reject();
+      this.messageDB
+        .find(query)
+        .sort({ time: 1 })
+        .exec((err, data) => {
+          modifiers && modifiers(err, data);
+          // если ошибка тупо выходим
+          if (err) return reject();
 
-        // иначе возвращаем данные
-        resolve(data);
-      });
+          // иначе возвращаем данные
+          resolve(data);
+        });
     });
   }
 

@@ -3,7 +3,8 @@ import React, { Fragment, memo } from "react";
 import PropTypes from "prop-types";
 import { EmojiTabsContainer } from "./styled";
 import { EmojiPicker } from "./EmojiPicker";
-export const EmojiBar = ({ setMessage }, message) => {
+export const EmojiBar = ({ setMessage, message }) => {
+  console.log(message, "123123");
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);

@@ -1,7 +1,8 @@
 import React from "react";
 import { Picker } from "emoji-mart";
-import styled from "styled-components";
-export const EmojiPicker = ({ setMessage }, message) => {
+import { EmojiPickerContainer } from "./styled";
+
+export const EmojiPicker = ({ setMessage, message }) => {
   return (
     <EmojiPickerContainer>
       <Picker
@@ -18,13 +19,3 @@ export const EmojiPicker = ({ setMessage }, message) => {
     </EmojiPickerContainer>
   );
 };
-
-const EmojiPickerContainer = styled.div`
-  height: calc(100% - 48px);
-
-  .emoji-mart {
-    display: flex;
-    flex-direction: column-reverse;
-    height: 100%;
-  }
-`;

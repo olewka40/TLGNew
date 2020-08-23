@@ -30,7 +30,7 @@ export const FileUpload = () => {
       .then(res => {
         getFile({
           name: res.data.data[0].name,
-          path: "http://localhost:3000/api/files/" + res.data.data[0].name
+          path: "http://localhost:3000/api/files/" + res.data.data[0].link
         });
       })
       .catch(err => console.log(err));
@@ -42,7 +42,9 @@ export const FileUpload = () => {
       <button onClick={uploadFile}>Upload</button>
       <hr />
       {/* displaying received image*/}
-      {data.path && <img src={data.path} alt={data.name} />}
+      {data.path && (
+        <img width="50px" height="50px" src={data.path} alt={data.name} />
+      )}
     </div>
   );
 };

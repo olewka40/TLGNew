@@ -11,7 +11,7 @@ import { MessageLayoutContext } from "../../context/messageLayoutContext";
 import { Popover, IconButton } from "@material-ui/core";
 import { EmojiBar } from "./EmojiBar";
 
-export const Footer = () => {
+export const Footer = memo(() => {
   const router = useRouter();
   const areaRef = useRef();
   const [message, setMessage] = useState("");
@@ -63,17 +63,13 @@ export const Footer = () => {
           ref={areaRef}
         />
       </StyledTextArea>
-
-      <IconButton
-        onMouseMove={onMouseOver}
-        onMouseLeave={onMouseLeave}
-        onClick={triggerPicker}
-      >
-        <MoodIcon color="primary" />
+      <IconButton onMouseMove={onMouseOver} onMouseLeave={onMouseLeave}>
+        <MoodIcon color="primary" onClick={triggerPicker} />
         <Popover
+          style={{ height: 740 }}
           open={isHovered}
           anchorReference="anchorPosition"
-          anchorPosition={{ top: 875, left: 1920 }}
+          anchorPosition={{ top: 795, left: 1920 }}
           anchorOrigin={{
             vertical: "center",
             horizontal: "center"
@@ -91,7 +87,7 @@ export const Footer = () => {
       </IconButton>
     </MsgPlace>
   );
-};
+});
 
 const MsgPlace = styled.div`
   display: flex;
