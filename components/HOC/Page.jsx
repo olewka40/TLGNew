@@ -49,7 +49,7 @@ export default function withContextPage(Component) {
       const { userId } = cookies(appContext);
       const {
         data: { data: dialogs }
-      } = await axios.get("/api/getDialogs", { headers: { userId } });
+      } = await axios.get(`/api/getDialogs/${userId}`, { headers: { userId } });
 
       return {
         ...appProps,

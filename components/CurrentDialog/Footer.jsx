@@ -65,11 +65,11 @@ export const Footer = memo(() => {
       </StyledTextArea>
       <IconButton onMouseMove={onMouseOver} onMouseLeave={onMouseLeave}>
         <MoodIcon color="primary" onClick={triggerPicker} />
-        {/*{isHovered && (*/}
-        <EmojiWrapper>
-          <EmojiBar setMessage={setMessage} message={message} />
-        </EmojiWrapper>
-        {/*)}*/}
+        {isHovered && (
+          <EmojiWrapper>
+            <EmojiBar setMessage={setMessage} message={message} />
+          </EmojiWrapper>
+        )}
       </IconButton>
       <IconButton onClick={onSend}>
         <SendIcon color="primary" />

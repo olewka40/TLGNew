@@ -140,38 +140,6 @@ nextApp.prepare().then(() => {
     console.log("a user connected");
   });
 
-  // upload single file
-  // app.post("/upload-file", async (req, res) => {
-  //   try {
-  //     if (!req.files) {
-  //       res.send({
-  //         status: false,
-  //         message: "No file uploaded"
-  //       });
-  //     } else {
-  //       //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-  //       let avatar = req.files.avatar;
-  //
-  //       //Use the mv() method to place the file in upload directory (i.e. "uploads")
-  //       avatar.mv("./uploads/" + avatar.name);
-  //
-  //       //send response
-  //       res.send({
-  //         status: true,
-  //         message: "File is uploaded",
-  //         data: {
-  //           name: avatar.name,
-  //           mimetype: avatar.mimetype,
-  //           size: avatar.size
-  //         }
-  //       });
-  //     }
-  //   } catch (err) {
-  //     res.status(500).send(err);
-  //   }
-  // });
-
-  // upload multiple files
   app.post("/api/upload-photos", async (req, res) => {
     const userId = req.cookies.userId;
     try {
@@ -242,15 +210,14 @@ nextApp.prepare().then(() => {
     });
   });
 
-  app.get("/api/getDialogs", async (req, res) => {
-    const userid = req.cookies.userId;
-
-    const user = await Database.user_provider.findOne({ _id: userid });
+  app.get("/api/getDialogs/:userId", async (req, res) => {
+    const {userId} = req.params;
+    console.log(userId, 123123);
+    const user = await Database.user_provider.findOne({ _id: userId });
     console.log(user);
     const dialogs = await Database.dialog_provider.find({
       "users.userId": user._id
     });
-
     const getMessagesForDialogs = async () => {
       for (var i = 0; i < dialogs.length; i++) {
         const dialog = dialogs[i] || [];
