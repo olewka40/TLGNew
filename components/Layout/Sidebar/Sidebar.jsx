@@ -20,7 +20,7 @@ export const Sidebar = memo(() => {
   const [opened, setOpen] = useState(true);
   const router = useRouter();
   const logout = useCallback(async () => {
-    await axios.get("/api/authorization/logout");
+    await axios.get("/logout");
     router.replace("/login");
   }, []);
 

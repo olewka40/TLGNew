@@ -31,7 +31,7 @@ nextApp.prepare().then(() => {
     })
   );
 
-  app.get("/api/authorization/logout", (req, res) => {
+  app.get("/logout", (req, res) => {
     res.clearCookie("userId");
     res.send({ status: 200 });
   });
@@ -141,40 +141,39 @@ nextApp.prepare().then(() => {
   });
 
   // upload single file
-  app.post("/upload-file", async (req, res) => {
-    try {
-      if (!req.files) {
-        res.send({
-          status: false,
-          message: "No file uploaded"
-        });
-      } else {
-        //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-        let avatar = req.files.avatar;
-
-        //Use the mv() method to place the file in upload directory (i.e. "uploads")
-        avatar.mv("./uploads/" + avatar.name);
-
-        //send response
-        res.send({
-          status: true,
-          message: "File is uploaded",
-          data: {
-            name: avatar.name,
-            mimetype: avatar.mimetype,
-            size: avatar.size
-          }
-        });
-      }
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  });
+  // app.post("/upload-file", async (req, res) => {
+  //   try {
+  //     if (!req.files) {
+  //       res.send({
+  //         status: false,
+  //         message: "No file uploaded"
+  //       });
+  //     } else {
+  //       //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+  //       let avatar = req.files.avatar;
+  //
+  //       //Use the mv() method to place the file in upload directory (i.e. "uploads")
+  //       avatar.mv("./uploads/" + avatar.name);
+  //
+  //       //send response
+  //       res.send({
+  //         status: true,
+  //         message: "File is uploaded",
+  //         data: {
+  //           name: avatar.name,
+  //           mimetype: avatar.mimetype,
+  //           size: avatar.size
+  //         }
+  //       });
+  //     }
+  //   } catch (err) {
+  //     res.status(500).send(err);
+  //   }
+  // });
 
   // upload multiple files
   app.post("/api/upload-photos", async (req, res) => {
     const userId = req.cookies.userId;
-    console.log(userId, "123123");
     try {
       if (!req.files) {
         res.send({
@@ -231,11 +230,9 @@ nextApp.prepare().then(() => {
       messages: messages
     });
   });
-  app.get("/api/files/user-image/:userid", (req, res) => {});
 
   app.get("/api/getUserInfo", async (req, res) => {
     const userid = req.cookies.userId;
-    console.log(userid);
     const userInfo = await Database.user_provider.find({
       _id: userid
     });
@@ -249,11 +246,10 @@ nextApp.prepare().then(() => {
     const userid = req.cookies.userId;
 
     const user = await Database.user_provider.findOne({ _id: userid });
+    console.log(user);
     const dialogs = await Database.dialog_provider.find({
-      "users.userLogin": user.login
+      "users.userId": user._id
     });
-    console.log(dialogs);
-    console.log(user, "userLogin");
 
     const getMessagesForDialogs = async () => {
       for (var i = 0; i < dialogs.length; i++) {
@@ -318,33 +314,46 @@ async function initializeDB() {
   }
 
   if (!createdDialog) {
+    const user = await Database.user_provider.find();
+    console.log(user[0]._id, user[1]._id, user[2]._id);
     Database.dialog_provider.insert({
-      name: "Squal",
-      users: [{ userLogin: "1234" }, { userLogin: "1235" }]
+      name: `${user[0].login} ${user[1].login}`,
+      users: [{ userId: user[0]._id }, { userId: user[1]._id }]
     });
     Database.dialog_provider.insert({
-      name: "Squal",
-      users: [{ userLogin: "1234" }, { userLogin: "1235" }]
+      name: `${user[1].login} ${user[2].login}`,
+      users: [{ userId: user[1]._id }, { userId: user[2]._id }]
+    });
+    Database.dialog_provider.insert({
+      name: `${user[0].login} ${user[2].login}`,
+      users: [{ userId: user[0]._id }, { userId: user[2]._id }]
     });
   }
 
   if (!createdMessage) {
-    const user = await Database.user_provider.findOne();
-    const dialog = await Database.dialog_provider.findOne();
+    const user = await Database.user_provider.find();
+    const dialog = await Database.dialog_provider.find();
+    console.log(user, 123123);
     Database.message_provider.insert({
-      text: "1234",
+      text: "1",
       time: Date.now(),
       readed: true,
-      senderId: user._id,
-      dialogId: dialog._id
+      senderId: user[1]._id,
+      dialogId: dialog[0]._id
     });
-
     Database.message_provider.insert({
-      text: "1236",
+      text: "2",
       time: Date.now(),
-      readed: false,
-      senderId: user._id,
-      dialogId: dialog._id
+      readed: true,
+      senderId: user[1]._id,
+      dialogId: dialog[1]._id
+    });
+    Database.message_provider.insert({
+      text: "3",
+      time: Date.now(),
+      readed: true,
+      senderId: user[2]._id,
+      dialogId: dialog[2]._id
     });
   }
 }

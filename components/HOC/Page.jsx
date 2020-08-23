@@ -64,8 +64,6 @@ export default function withContextPage(Component) {
         ...appProps
       } = this.props;
       const { dialogs } = this.state;
-      console.log(dialogs);
-
       // экшены
       const { updateDialog } = this;
       return (

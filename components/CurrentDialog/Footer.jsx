@@ -65,11 +65,11 @@ export const Footer = memo(() => {
       </StyledTextArea>
       <IconButton onMouseMove={onMouseOver} onMouseLeave={onMouseLeave}>
         <MoodIcon color="primary" onClick={triggerPicker} />
-        {isHovered && (
-          <EmojiWrapper>
-            <EmojiBar setMessage={setMessage} message={message} />
-          </EmojiWrapper>
-        )}
+        {/*{isHovered && (*/}
+        <EmojiWrapper>
+          <EmojiBar setMessage={setMessage} message={message} />
+        </EmojiWrapper>
+        {/*)}*/}
       </IconButton>
       <IconButton onClick={onSend}>
         <SendIcon color="primary" />
@@ -81,8 +81,8 @@ export const Footer = memo(() => {
 const EmojiWrapper = styled.div`
   position: absolute;
   height: 740px;
-  bottom: 40px;
-  right: 0;
+  bottom: 58px;
+  right: -38px;
 `;
 
 const MsgPlace = styled.div`

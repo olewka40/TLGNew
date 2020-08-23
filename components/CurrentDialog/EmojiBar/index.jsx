@@ -3,11 +3,15 @@ import React, { Fragment, memo } from "react";
 import PropTypes from "prop-types";
 import { EmojiTabsContainer } from "./styled";
 import { EmojiPicker } from "./EmojiPicker";
+import SwipeableViews from "react-swipeable-views";
+
 export const EmojiBar = ({ setMessage, message }) => {
-  console.log(message, "123123");
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+  const handleChangeIndex = index => {
+    setValue(index);
   };
   return (
     <EmojiTabsContainer>
@@ -23,15 +27,17 @@ export const EmojiBar = ({ setMessage, message }) => {
         <Tab style={{ minWidth: "100px" }} label="stickers" />
         <Tab style={{ minWidth: "100px" }} label="gifs" />
       </Tabs>
-      <TabPanel value={value} index={0}>
-        <EmojiPicker setMessage={setMessage} message={message} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Стикеры
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Гифки
-      </TabPanel>
+      <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
+        <TabPanel value={value} index={0}>
+          <EmojiPicker setMessage={setMessage} message={message} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          Стикеры
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          Гифки
+        </TabPanel>
+      </SwipeableViews>
     </EmojiTabsContainer>
   );
 };

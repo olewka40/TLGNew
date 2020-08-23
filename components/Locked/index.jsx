@@ -16,7 +16,7 @@ export const Locked = memo(() => {
   const router = useRouter();
 
   const logout = useCallback(async () => {
-    await axios.get("/api/authorization/logout");
+    await axios.get("/logout");
     router.replace("/login");
   }, []);
   return (

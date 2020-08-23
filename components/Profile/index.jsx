@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import FileUpload from "../../pages/upload-avatar";
+import FileUpload from "../../pages/gif";
 import axios from "axios";
 import { Button, Card } from "@material-ui/core";
 import { StyledButton } from "../Registration/styled";
@@ -11,7 +11,6 @@ export const Profile = () => {
   const getUserInfo = useCallback(async () => {
     const { data } = await axios.get("/api/getUserInfo");
     setProfileInfo(data.userInfo[0]);
-    console.log(data.userInfo[0]);
   }, []);
 
   const handleChangeAvatar = useCallback(() => {
