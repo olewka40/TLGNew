@@ -188,13 +188,13 @@ nextApp.prepare().then(() => {
   //make uploads directory static
   app.use("/api/files", express.static("uploads"));
 
-  app.get("/api/getMessages/:dialogid", async (req, res) => {
-    const { dialogid } = req.params;
+  app.get("/api/getMessages/:dialogId", async (req, res) => {
+    const { dialogId } = req.params;
     const messages = await Database.message_provider.find({
-      dialogId: dialogid
+      dialogId: dialogId
     });
     res.json({
-      dialogId: dialogid,
+      dialogId: dialogId,
       messages: messages
     });
   });
@@ -209,9 +209,19 @@ nextApp.prepare().then(() => {
       userInfo: userInfo
     });
   });
+  app.get("/api/getUserAvatar/:avatarUser", async (req, res) => {
+    const { avatarUser } = req.params;
+    const userAvatar = await Database.user_provider.find({
+      _id: avatarUser
+    });
+    console.log(avatarUser, userAvatar, "jgaq8usyghaignasing");
+    res.json({
+      data: userAvatar
+    });
+  });
 
   app.get("/api/getDialogs/:userId", async (req, res) => {
-    const {userId} = req.params;
+    const { userId } = req.params;
     console.log(userId, 123123);
     const user = await Database.user_provider.findOne({ _id: userId });
     console.log(user);
