@@ -70,7 +70,7 @@ export default function withContextPage(Component) {
       const { updateDialog } = this;
       return (
         <UserContext.Provider value={{ userId }}>
-          <DialogsContext.Provider value={{ dialogs, updateDialog }}>
+          <DialogsContext.Provider value={{ dialogs, updateDialog, userId }}>
             <Layout isLogin={route === "/login"}>
               <Component {...appProps} />
             </Layout>

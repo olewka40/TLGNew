@@ -6,6 +6,7 @@ export const EmojiTabsContainer = styled.div`
   min-width: 300px;
   color: #0074c6;
   height: 100%;
+  background: #17212b;
 `;
 export const EmojiPickerContainer = styled.div`
   height: calc(100% - 48px);

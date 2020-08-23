@@ -23,16 +23,9 @@ const defaultRemember = () => {
     return false;
   }
 };
-const defaultLogin = () => {
-  if (process.browser) {
-    return localStorage.getItem("rememberMeLogin") || "";
-  } else {
-    return "";
-  }
-};
 
 export const Login = (callback, deps) => {
-  const [login, setLogin] = useState(defaultLogin);
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRemember] = useState(defaultRemember);
   const router = useRouter();
@@ -66,11 +59,11 @@ export const Login = (callback, deps) => {
             onChange={({ target: { value: value } }) => {
               setLogin(value);
             }}
-            id="login"
+            name="Lohin"
             label="Логин"
-            name="Login"
-            autoComplete="Login"
-            autoFocus
+            type="login"
+            id="login"
+            autoComplete="login"
           />
           <TextField
             variant="outlined"
@@ -85,7 +78,7 @@ export const Login = (callback, deps) => {
             label="Пароль"
             type="password"
             id="password"
-            autoComplete="current-password"
+            autoComplete="password"
           />
           <FormControlLabel
             control={

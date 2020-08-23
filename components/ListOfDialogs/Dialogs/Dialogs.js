@@ -7,7 +7,7 @@ import { List } from "./styled";
 export const Dialogs = memo(props => {
   const {
     opened,
-    context: { dialogs, updateDialog }
+    context: { dialogs, updateDialog,userId }
   } = props;
 
   const onMessage = useCallback(data => {
@@ -20,19 +20,19 @@ export const Dialogs = memo(props => {
   }, []);
   const router = useRouter();
   const { id } = router.query;
-
   return (
     <List opened={opened}>
-      {dialogs.map(({ _id, avatar, name, message, time, readed }) => (
-        <Dialog opened={opened}
+      {dialogs.map(({ _id, name, message, time, users }) => (
+        <Dialog
+            userId={userId}
+          opened={opened}
           active={id === _id}
           key={_id}
-          avatarImg={avatar}
           name={name}
           dialogid={_id}
           message={message}
           time={time}
-          readed={readed}
+          users={users}
         />
       ))}
     </List>

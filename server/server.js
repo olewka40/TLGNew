@@ -247,7 +247,13 @@ nextApp.prepare().then(() => {
 
   app.get("/api/getDialogs", async (req, res) => {
     const userid = req.cookies.userId;
-    const dialogs = await Database.dialog_provider.find();
+
+    const user = await Database.user_provider.findOne({ _id: userid });
+    const dialogs = await Database.dialog_provider.find({
+      "users.userLogin": user.login
+    });
+    console.log(dialogs);
+    console.log(user, "userLogin");
 
     const getMessagesForDialogs = async () => {
       for (var i = 0; i < dialogs.length; i++) {
@@ -290,7 +296,7 @@ async function initializeDB() {
       password: "1234",
       firstName: "1234",
       lastName: "1234",
-      avatar: "",
+      avatar: "/default_avatar.png",
       email: "123@mail.ri"
     });
     Database.user_provider.insert({
@@ -298,7 +304,7 @@ async function initializeDB() {
       password: "1235",
       firstName: "1235",
       lastName: "1235",
-      avatar: "",
+      avatar: "/default_avatar.png",
       email: "1235@mail.ri"
     });
     Database.user_provider.insert({
@@ -306,14 +312,20 @@ async function initializeDB() {
       password: "1236",
       firstName: "1236",
       lastName: "1236",
-      avatar: "",
+      avatar: "/default_avatar.png",
       email: "1236@mail.ri"
     });
   }
 
   if (!createdDialog) {
-    Database.dialog_provider.insert({ name: "Squal", users: ["1234", "1235"] });
-    Database.dialog_provider.insert({ name: "Squal", users: ["1234", "1236"] });
+    Database.dialog_provider.insert({
+      name: "Squal",
+      users: [{ userLogin: "1234" }, { userLogin: "1235" }]
+    });
+    Database.dialog_provider.insert({
+      name: "Squal",
+      users: [{ userLogin: "1234" }, { userLogin: "1235" }]
+    });
   }
 
   if (!createdMessage) {

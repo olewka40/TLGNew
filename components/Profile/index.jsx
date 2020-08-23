@@ -29,6 +29,7 @@ export const Profile = () => {
           <Text> firstName: {profileInfo.firstName}</Text>
           <Text> _id: {profileInfo._id}</Text>
           <img
+            width="100px"
             src={`http://localhost:3000/api/files/${profileInfo.avatar}`}
             alt="Avatar"
           />

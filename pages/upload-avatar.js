@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-
+import styled from "styled-components";
 export const FileUpload = () => {
   const [files, setFiles] = useState(""); // storing the uploaded file    // storing the recived file from backend
   const [data, getFile] = useState([{ name: "", path: "" }]);
@@ -36,16 +36,15 @@ export const FileUpload = () => {
       .catch(err => console.log(err));
   };
   return (
-    <div>
+    <UploadFilesContainer>
       <input type="file" ref={el} onChange={handleChange} />
-      <div>{progress}</div>
+      <>{progress}</>
       <button onClick={uploadFile}>Upload</button>
       <hr />
-      {/* displaying received image*/}
-      {data.path && (
-        <img width="50px" height="50px" src={data.path} alt={data.name} />
-      )}
-    </div>
+    </UploadFilesContainer>
   );
 };
 export default FileUpload;
+const UploadFilesContainer = styled.div`
+  background-color: #2d343c;
+`;

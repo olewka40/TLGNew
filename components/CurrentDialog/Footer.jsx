@@ -65,22 +65,11 @@ export const Footer = memo(() => {
       </StyledTextArea>
       <IconButton onMouseMove={onMouseOver} onMouseLeave={onMouseLeave}>
         <MoodIcon color="primary" onClick={triggerPicker} />
-        <Popover
-          style={{ height: 740 }}
-          open={isHovered}
-          anchorReference="anchorPosition"
-          anchorPosition={{ top: 795, left: 1920 }}
-          anchorOrigin={{
-            vertical: "center",
-            horizontal: "center"
-          }}
-          transformOrigin={{
-            vertical: "bottom",
-            horizontal: "right"
-          }}
-        >
-          <EmojiBar setMessage={setMessage} message={message} />
-        </Popover>
+        {isHovered && (
+          <EmojiWrapper>
+            <EmojiBar setMessage={setMessage} message={message} />
+          </EmojiWrapper>
+        )}
       </IconButton>
       <IconButton onClick={onSend}>
         <SendIcon color="primary" />
@@ -88,6 +77,13 @@ export const Footer = memo(() => {
     </MsgPlace>
   );
 });
+
+const EmojiWrapper = styled.div`
+  position: absolute;
+  height: 740px;
+  bottom: 40px;
+  right: 0;
+`;
 
 const MsgPlace = styled.div`
   display: flex;

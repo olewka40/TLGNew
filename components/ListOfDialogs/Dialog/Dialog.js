@@ -14,19 +14,22 @@ import {
   BotInfo,
   Message
 } from "./styled";
-import { avatarImg } from "../../constants";
 
 export const Dialog = ({
+  userId,
   dialogid,
   active,
-  // avatarImg,
   name,
   message,
   time,
-  readed,
+  users,
   opened
 }) => {
   const router = useRouter();
+  // const sobesednikId = users.filter(e => e.userLogin !== userId);
+  // console.log(sobesednikId[0].userLogin);
+  // console.log(userId, "3421");
+
   return (
     <DialogContainer
       active={active}
@@ -34,7 +37,7 @@ export const Dialog = ({
         router.push("/dialogs/[id]", `/dialogs/${dialogid}`);
       }}
     >
-      <ImgAvatar src={avatarImg} />
+      <ImgAvatar />
       {opened && (
         <DialogInfo>
           <TopInfo>
