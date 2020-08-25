@@ -209,20 +209,20 @@ nextApp.prepare().then(() => {
       userInfo: userInfo
     });
   });
+
   app.get("/api/getUserAvatar/:avatarUser", async (req, res) => {
     const { avatarUser } = req.params;
-    const userAvatar = await Database.user_provider.find({
+    const userAvatar = await Database.user_provider.findOne({
       _id: avatarUser
     });
     console.log(avatarUser, userAvatar, "jgaq8usyghaignasing");
     res.json({
-      data: userAvatar
+      userAvatar
     });
   });
 
   app.get("/api/getDialogs/:userId", async (req, res) => {
     const { userId } = req.params;
-    console.log(userId, 123123);
     const user = await Database.user_provider.findOne({ _id: userId });
     console.log(user);
     const dialogs = await Database.dialog_provider.find({
@@ -310,7 +310,6 @@ async function initializeDB() {
   if (!createdMessage) {
     const user = await Database.user_provider.find();
     const dialog = await Database.dialog_provider.find();
-    console.log(user, 123123);
     Database.message_provider.insert({
       text: "1",
       time: Date.now(),

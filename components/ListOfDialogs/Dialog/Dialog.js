@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import CheckIcon from "@material-ui/icons/Check";
 import Emoji from "react-emoji-render";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import {
   DialogContainer,
@@ -14,6 +14,7 @@ import {
   BotInfo,
   Message
 } from "./styled";
+import axios from "axios";
 
 export const Dialog = ({
   userId,
@@ -26,9 +27,17 @@ export const Dialog = ({
   opened
 }) => {
   const router = useRouter();
-  // const sobesednikId = users.filter(e => e.userLogin !== userId);
-  // console.log(sobesednikId[0].userLogin);
-  // console.log(userId, "3421");
+  const [avatar, setAvatar] = useState("");
+  useEffect(async () => {
+    const sobesednikId = users.filter(e => e.userId !== userId)[0].userId;
+
+    const { data } = await axios.get(`/api/getUserAvatar/${sobesednikId}`);
+    if (data === null) {
+      return null;
+    } else {
+      setAvatar(data.userAvatar.avatar);
+    }
+  }, [users]);
 
   return (
     <DialogContainer
@@ -37,7 +46,7 @@ export const Dialog = ({
         router.push("/dialogs/[id]", `/dialogs/${dialogid}`);
       }}
     >
-      <ImgAvatar />
+      <ImgAvatar src={`http://localhost:3000/api/files/${avatar}`} />
       {opened && (
         <DialogInfo>
           <TopInfo>
