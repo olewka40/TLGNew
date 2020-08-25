@@ -1,5 +1,6 @@
 import withContextPage from "../components/HOC/Page";
 import styled from "styled-components";
+
 const App = () => {
   return (
     <Container>

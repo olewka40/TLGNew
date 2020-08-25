@@ -50,6 +50,6 @@ export const Readed = styled.div`
 export const ImgAvatarCurrent = styled.img`
   border-radius: 50px;
   margin: 8px 5px 5px;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
 `;
