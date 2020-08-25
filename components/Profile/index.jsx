@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import FileUpload from "../../pages/gif";
 import axios from "axios";
 import { Button, Card } from "@material-ui/core";
 import { StyledButton } from "../Registration/styled";
+import FileUpload from "../../pages/upload";
 
 export const Profile = () => {
   const [profileInfo, setProfileInfo] = useState({});
@@ -19,7 +19,6 @@ export const Profile = () => {
   return (
     <ProfileContainer>
       <Title>Информация о профиле</Title>
-      {/*<Card>*/}
       <CardContent>
         <Info>
           <Text>email: {profileInfo.email}</Text>
@@ -46,7 +45,6 @@ export const Profile = () => {
         </Button>
         {changeAvatar && <FileUpload />}
       </CardContent>
-      {/*</Card>*/}
     </ProfileContainer>
   );
 };

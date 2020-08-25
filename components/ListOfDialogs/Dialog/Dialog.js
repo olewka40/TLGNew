@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import CheckIcon from "@material-ui/icons/Check";
 import Emoji from "react-emoji-render";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Moment from "react-moment";
 import {
   DialogContainer,
@@ -28,9 +28,9 @@ export const Dialog = ({
 }) => {
   const router = useRouter();
   const [avatar, setAvatar] = useState("");
-  useEffect(async () => {
-    const sobesednikId = users.filter(e => e.userId !== userId)[0].userId;
 
+  const handleGetAvatars = useCallback(async () => {
+    const sobesednikId = users.filter(e => e.userId !== userId)[0].userId;
     const { data } = await axios.get(`/api/getUserAvatar/${sobesednikId}`);
     if (data === null) {
       return null;
@@ -38,6 +38,10 @@ export const Dialog = ({
       setAvatar(data.userAvatar.avatar);
     }
   }, [users]);
+
+  useEffect(() => {
+    handleGetAvatars();
+  }, []);
 
   return (
     <DialogContainer

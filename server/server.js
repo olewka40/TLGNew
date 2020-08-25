@@ -215,7 +215,6 @@ nextApp.prepare().then(() => {
     const userAvatar = await Database.user_provider.findOne({
       _id: avatarUser
     });
-    console.log(avatarUser, userAvatar, "jgaq8usyghaignasing");
     res.json({
       userAvatar
     });
@@ -224,7 +223,6 @@ nextApp.prepare().then(() => {
   app.get("/api/getDialogs/:userId", async (req, res) => {
     const { userId } = req.params;
     const user = await Database.user_provider.findOne({ _id: userId });
-    console.log(user);
     const dialogs = await Database.dialog_provider.find({
       "users.userId": user._id
     });
@@ -292,7 +290,6 @@ async function initializeDB() {
 
   if (!createdDialog) {
     const user = await Database.user_provider.find();
-    console.log(user[0]._id, user[1]._id, user[2]._id);
     Database.dialog_provider.insert({
       name: `${user[0].login} ${user[1].login}`,
       users: [{ userId: user[0]._id }, { userId: user[1]._id }]
