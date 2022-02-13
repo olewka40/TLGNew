@@ -222,7 +222,9 @@ nextApp.prepare().then(() => {
 
   app.get("/api/getDialogs/:userId", async (req, res) => {
     const { userId } = req.params;
+    console.log(userId)
     const user = await Database.user_provider.findOne({ _id: userId });
+    console.log(user)
     const dialogs = await Database.dialog_provider.find({
       "users.userId": user._id
     });
