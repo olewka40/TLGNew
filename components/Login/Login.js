@@ -1,4 +1,4 @@
-import React, { useCallback, memo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Avatar,
   TextField,
@@ -26,6 +26,7 @@ const defaultRemember = () => {
 
 export const Login = (callback, deps) => {
   const [login, setLogin] = useState("");
+
   const [password, setPassword] = useState("");
   const [rememberMe, setRemember] = useState(defaultRemember);
   const router = useRouter();

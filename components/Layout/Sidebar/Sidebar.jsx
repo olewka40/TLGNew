@@ -1,5 +1,5 @@
-import React, { useCallback, useState, memo } from "react";
-import { IconButton } from "@material-ui/core";
+import React, { useCallback, useState, memo, useEffect } from "react";
+import { IconButton, MenuItem } from "@material-ui/core";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Menu } from "@material-ui/icons";
@@ -15,6 +15,7 @@ import {
   Footer,
   Main
 } from "./styled";
+import {SearchUser} from "./SearchUser";
 
 export const Sidebar = memo(() => {
   const [opened, setOpen] = useState(true);
@@ -23,6 +24,7 @@ export const Sidebar = memo(() => {
     await axios.get("/logout");
     router.replace("/login");
   }, []);
+
 
   return (
     <StyledSidebar opened={opened}>
@@ -39,13 +41,14 @@ export const Sidebar = memo(() => {
           </IconButton>
           {opened && (
             <>
-              <SearchInput placeholder="  Найти..." />
+              <SearchUser/>
+
               <IconButton
                 onClick={() => {
-                  router.push("/locked");
+                  // router.push("/locked");
                 }}
               >
-                <LockOpenIcon color="primary" />
+                <LockOpenIcon color="disabled" />
               </IconButton>
             </>
           )}

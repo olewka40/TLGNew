@@ -16,17 +16,17 @@ export const Header = memo(() => {
     <NavBar>
       <Profile>
         <UserName>{dialog.name}</UserName>
-        <LastOnline>вчера в 18:24</LastOnline>
+        <LastOnline>недавно</LastOnline>
       </Profile>
       <NavBarIcons>
         <IconButton>
-          <CallIcon color="primary" />
+          <CallIcon color="" />
         </IconButton>
         <IconButton>
-          <SearchIcon color="primary" />
+          <SearchIcon color="" />
         </IconButton>
         <IconButton>
-          <MoreVertIcon color="primary" />
+          <MoreVertIcon color="" />
         </IconButton>
       </NavBarIcons>
     </NavBar>

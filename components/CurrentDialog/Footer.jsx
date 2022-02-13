@@ -49,7 +49,7 @@ export const Footer = memo(() => {
   return (
     <MsgPlace>
       <IconButton>
-        <AttachFileIcon color="primary" />
+        <AttachFileIcon color="" />
       </IconButton>
       <StyledTextArea>
         <TextareaAutosize

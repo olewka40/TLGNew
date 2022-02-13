@@ -79,7 +79,7 @@ nextApp.prepare().then(() => {
         res.send({ status: 200 });
       } else {
         res.clearCookie("userId");
-        res.sendStatus(401);
+        res.json({ message: "Неправильный логин или пароль" });
       }
     }
   });
@@ -102,6 +102,11 @@ nextApp.prepare().then(() => {
     const user = await Database.user_provider.findOne({ _id: userid });
     // TODO: УДАЛИТЬ ПАРОЛЬ ЮЗЕРА ПРИ ВЫДАЧЕ ЧЕРЕЗ АПИ
     res.json(user);
+  });
+  app.get("/api/getAllUsers", async (req, res) => {
+    const users = await Database.user_provider.find();
+    // TODO: УДАЛИТЬ ПАРОЛЬ ЮЗЕРА ПРИ ВЫДАЧЕ ЧЕРЕЗ АПИ
+    res.json(users);
   });
 
   io.on("connection", function(socket) {
@@ -220,11 +225,38 @@ nextApp.prepare().then(() => {
     });
   });
 
+  app.post("/api/createDialog", async (req, res) => {
+    const { userId, secondUserId } = req.body;
+    console.log(userId, secondUserId, "userId, secondUserId");
+    const dialogsOne = await Database.dialog_provider.find({
+      "users.userId": userId
+    });
+    const d1 = dialogsOne.map(e => {
+      return e.users;
+    })[0];
+    const isHaveDia = d1.some(dia => dia.userId === secondUserId);
+    console.log(isHaveDia);
+    if (!isHaveDia) {
+      console.log("КОМНАТЫ НЕТ");
+      const user = await Database.user_provider.findOne({ _id: userId });
+      //
+      const secondUser = await Database.user_provider.findOne({
+        _id: secondUserId
+      });
+
+      Database.dialog_provider.insert({
+        name: `${user.login} ${secondUser.login}`,
+        users: [{ userId: user._id }, { userId: secondUser._id }]
+      });
+      res.json({ status: 201, message: `Диалог успешно создан` });
+    } else {
+      res.json({ status: 201, message: `Диалог уже существует` });
+    }
+  });
   app.get("/api/getDialogs/:userId", async (req, res) => {
     const { userId } = req.params;
-    console.log(userId)
+    console.log(userId);
     const user = await Database.user_provider.findOne({ _id: userId });
-    console.log(user)
     const dialogs = await Database.dialog_provider.find({
       "users.userId": user._id
     });
@@ -265,28 +297,28 @@ async function initializeDB() {
 
   if (!createdUser) {
     Database.user_provider.insert({
-      login: "1234",
-      password: "1234",
-      firstName: "1234",
-      lastName: "1234",
+      login: "test1",
+      password: "test1",
+      firstName: "test1",
+      lastName: "test1",
       avatar: "/default_avatar.png",
       email: "123@mail.ri"
     });
     Database.user_provider.insert({
-      login: "1235",
-      password: "1235",
-      firstName: "1235",
-      lastName: "1235",
+      login: "test2",
+      password: "test2",
+      firstName: "test2",
+      lastName: "test2",
       avatar: "/default_avatar.png",
-      email: "1235@mail.ri"
+      email: "test2@mail.ri"
     });
     Database.user_provider.insert({
-      login: "1236",
-      password: "1236",
-      firstName: "1236",
-      lastName: "1236",
+      login: "test3",
+      password: "test3",
+      firstName: "test3",
+      lastName: "test3",
       avatar: "/default_avatar.png",
-      email: "1236@mail.ri"
+      email: "test3@mail.ri"
     });
   }
 
@@ -295,14 +327,6 @@ async function initializeDB() {
     Database.dialog_provider.insert({
       name: `${user[0].login} ${user[1].login}`,
       users: [{ userId: user[0]._id }, { userId: user[1]._id }]
-    });
-    Database.dialog_provider.insert({
-      name: `${user[1].login} ${user[2].login}`,
-      users: [{ userId: user[1]._id }, { userId: user[2]._id }]
-    });
-    Database.dialog_provider.insert({
-      name: `${user[0].login} ${user[2].login}`,
-      users: [{ userId: user[0]._id }, { userId: user[2]._id }]
     });
   }
 
@@ -315,20 +339,6 @@ async function initializeDB() {
       readed: true,
       senderId: user[1]._id,
       dialogId: dialog[0]._id
-    });
-    Database.message_provider.insert({
-      text: "2",
-      time: Date.now(),
-      readed: true,
-      senderId: user[1]._id,
-      dialogId: dialog[1]._id
-    });
-    Database.message_provider.insert({
-      text: "3",
-      time: Date.now(),
-      readed: true,
-      senderId: user[2]._id,
-      dialogId: dialog[2]._id
     });
   }
 }
