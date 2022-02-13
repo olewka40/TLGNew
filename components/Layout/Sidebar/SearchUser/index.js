@@ -10,12 +10,11 @@ export const SearchUser = () => {
   const { userId } = useContext(UserContext);
 
   const createRoomWithUser = async value => {
-    console.log(userId, "userId ");
     const { data } = await axios.post("/api/createDialog", {
       userId,
       secondUserId: value
     });
-    console.log(data);
+    alert(data.message);
   };
 
   const getAllUsers = async () => {

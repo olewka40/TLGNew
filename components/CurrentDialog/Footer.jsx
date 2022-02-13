@@ -11,10 +11,9 @@ import { MessageLayoutContext } from "../../context/messageLayoutContext";
 import { Popover, IconButton } from "@material-ui/core";
 import { EmojiBar } from "./EmojiBar";
 
-export const Footer = memo(() => {
+export const Footer = memo(({ message, setMessage }) => {
   const router = useRouter();
   const areaRef = useRef();
-  const [message, setMessage] = useState("");
   const onSend = useCallback(() => {
     if (!areaRef.current.value) return;
 
@@ -44,7 +43,7 @@ export const Footer = memo(() => {
     }
   }, [isHovered]);
   const onMouseLeave = useCallback(() => {
-    setHovered(false);
+    setTimeout(setHovered(false), 1000);
   }, []);
   return (
     <MsgPlace>
@@ -81,7 +80,7 @@ export const Footer = memo(() => {
 const EmojiWrapper = styled.div`
   position: absolute;
   height: 740px;
-  bottom: 58px;
+  bottom: 45px;
   right: -38px;
 `;
 

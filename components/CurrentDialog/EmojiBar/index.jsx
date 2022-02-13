@@ -6,6 +6,7 @@ import { EmojiPicker } from "./EmojiPicker";
 import SwipeableViews from "react-swipeable-views";
 
 export const EmojiBar = ({ setMessage, message }) => {
+  console.log(setMessage, message);
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -24,8 +25,8 @@ export const EmojiBar = ({ setMessage, message }) => {
         aria-label="scrollable auto tabs example"
       >
         <Tab style={{ minWidth: "100px" }} label="emoji" />
-        <Tab style={{ minWidth: "100px" }} label="stickers" />
-        <Tab style={{ minWidth: "100px" }} label="gifs" />
+        <Tab style={{ minWidth: "100px" }} label="stickers" disabled />
+        <Tab style={{ minWidth: "100px" }} label="gifs" disabled />
       </Tabs>
       <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0}>
