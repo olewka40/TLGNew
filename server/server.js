@@ -227,30 +227,49 @@ nextApp.prepare().then(() => {
 
   app.post("/api/createDialog", async (req, res) => {
     const { userId, secondUserId } = req.body;
-    console.log(userId, secondUserId, "userId, secondUserId");
+    console.log(userId, "userId");
+    console.log(secondUserId, "secondUserId");
     const dialogsOne = await Database.dialog_provider.find({
       "users.userId": userId
     });
-    const d1 = dialogsOne.map(e => {
+    const dialogs = dialogsOne.map(e => {
       return e.users;
     })[0];
-    const isHaveDia = d1.some(dia => dia.userId === secondUserId);
-    console.log(isHaveDia);
-    if (!isHaveDia) {
-      console.log("КОМНАТЫ НЕТ");
-      const user = await Database.user_provider.findOne({ _id: userId });
-      //
-      const secondUser = await Database.user_provider.findOne({
-        _id: secondUserId
-      });
+    console.log(dialogs, "d1");
+    const user = await Database.user_provider.findOne({ _id: userId });
+    const secondUser = await Database.user_provider.findOne({
+      _id: secondUserId
+    });
+    if (!dialogs) {
+      console.log("нет диалогов");
 
-      Database.dialog_provider.insert({
-        name: `${user.login} ${secondUser.login}`,
-        users: [{ userId: user._id }, { userId: secondUser._id }]
-      });
+      await Database.dialog_provider.insert(
+        {
+          name: `${user.login} ${secondUser.login}`,
+          users: [{ userId: user._id }, { userId: secondUser._id }]
+        },
+        (err, docs) => {
+          console.log(err, docs, "docs");
+        }
+      );
       res.json({ status: 201, message: `Диалог успешно создан` });
     } else {
-      res.json({ status: 201, message: `Диалог уже существует` });
+      const isHaveDialog = dialogs.some(dia => dia.userId === secondUserId);
+      console.log(isHaveDialog, "isHaveDialog");
+      if (isHaveDialog) {
+        res.json({ status: 201, message: `Диалог уже существует` });
+      } else {
+        await Database.dialog_provider.insert(
+          {
+            name: `${user.login} ${secondUser.login}`,
+            users: [{ userId: user._id }, { userId: secondUser._id }]
+          },
+          (err, docs) => {
+            console.log(err, docs, "docs");
+          }
+        );
+        res.json({ status: 201, message: `Диалог успешно создан` });
+      }
     }
   });
   app.get("/api/getDialogs/:userId", async (req, res) => {
@@ -342,8 +361,6 @@ async function initializeDB() {
     });
   }
 }
-
-
 
 // TODO: баг с куками
 // TODO: смайлики нормальными сделать
