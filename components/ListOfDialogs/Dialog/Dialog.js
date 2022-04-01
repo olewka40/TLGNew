@@ -39,6 +39,12 @@ export const Dialog = ({
     }
   }, [users]);
 
+  const splicerToSideMenu = message => {
+    if (message?.length > 47) {
+      return message.substr(0, 45) + "...";
+    }
+    return message.substr(0, 47);
+  };
   useEffect(() => {
     handleGetAvatars();
   }, []);
@@ -65,7 +71,7 @@ export const Dialog = ({
           </TopInfo>
           <BotInfo>
             <Message>
-              <Emoji text={message} />
+              <Emoji text={splicerToSideMenu(message)} />
             </Message>
           </BotInfo>
         </DialogInfo>

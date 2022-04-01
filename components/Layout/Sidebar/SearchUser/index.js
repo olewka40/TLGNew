@@ -15,6 +15,7 @@ export const SearchUser = () => {
       secondUserId: value
     });
     alert(data.message);
+    window.location.reload();
   };
 
   const getAllUsers = async () => {
@@ -35,14 +36,17 @@ export const SearchUser = () => {
         }}
         variant="outlined"
         displayEmpty={true}
-        color="promary"
+        color="primary"
         value="placeholder"
         onChange={e => {
           createRoomWithUser(e.target.value);
         }}
       >
         {users?.map(({ login, _id }) => (
-          <MenuItem value={_id}> {login}</MenuItem>
+          <MenuItem key={_id} value={_id}>
+            {" "}
+            {login}
+          </MenuItem>
         ))}
       </SearchInput>
       <Placeholder>Начать диалог</Placeholder>

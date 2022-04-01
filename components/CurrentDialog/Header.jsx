@@ -20,13 +20,13 @@ export const Header = memo(() => {
       </Profile>
       <NavBarIcons>
         <IconButton>
-          <CallIcon color="" />
+          <CallIcon  />
         </IconButton>
         <IconButton>
-          <SearchIcon color="" />
+          <SearchIcon />
         </IconButton>
         <IconButton>
-          <MoreVertIcon color="" />
+          <MoreVertIcon  />
         </IconButton>
       </NavBarIcons>
     </NavBar>
