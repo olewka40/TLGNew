@@ -8,14 +8,14 @@ import { UserContext } from "../../../../context/user";
 export const SearchUser = () => {
   const [users, setUsers] = useState(null);
   const { userId } = useContext(UserContext);
-
   const createRoomWithUser = async value => {
     const { data } = await axios.post("/api/createDialog", {
       userId,
       secondUserId: value
     });
+    console.log(data);
     alert(data.message);
-    window.location.reload();
+    // window.location.reload();
   };
 
   const getAllUsers = async () => {

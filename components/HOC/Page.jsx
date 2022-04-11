@@ -41,6 +41,17 @@ export default function withContextPage(Component) {
       this.setState({ dialogs });
     };
 
+    refreshDialogs = async () => {
+      const { userId } = this.props;
+      console.log(userId);
+      const {
+        data: { data }
+      } = await axios.get(`/api/getDialogs/${userId}`, {
+        headers: { userId }
+      });
+      console.log(data);
+    };
+
     static async getInitialProps(appContext) {
       // calls page's `getInitialProps` and fills `appProps.pageProps`
       const appProps =
@@ -65,10 +76,12 @@ export default function withContextPage(Component) {
       } = this.props;
       const { dialogs } = this.state;
       // экшены
-      const { updateDialog } = this;
+      const { updateDialog, refreshDialogs } = this;
       return (
         <UserContext.Provider value={{ userId }}>
-          <DialogsContext.Provider value={{ dialogs, updateDialog, userId }}>
+          <DialogsContext.Provider
+            value={{ dialogs, updateDialog, userId, refreshDialogs }}
+          >
             <Layout isLogin={route === "/login"}>
               <Component {...appProps} />
             </Layout>

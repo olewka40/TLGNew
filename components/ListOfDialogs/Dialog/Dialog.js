@@ -61,7 +61,6 @@ export const Dialog = ({
         <DialogInfo>
           <TopInfo>
             <UserName>{name} </UserName>
-
             <MsgInfo>
               <CheckIcon color="primary" fontSize="small" />
               <Time>

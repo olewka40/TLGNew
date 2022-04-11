@@ -1,7 +1,7 @@
-import withContextPage from "../components/HOC/Page";
 import styled from "styled-components";
+import withContextPage from "../../components/HOC/Page";
 
-const App = () => {
+const NoSelectedDialogs = () => {
   return (
     <Container>
       <MainDialog>
@@ -11,7 +11,7 @@ const App = () => {
   );
 };
 
-export default withContextPage(App);
+export default withContextPage(NoSelectedDialogs);
 
 const Container = styled.div`
   background-color: #0e1621;

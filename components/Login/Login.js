@@ -39,7 +39,7 @@ export const Login = (callback, deps) => {
       } else {
         localStorage.setItem("rememberMeLogin", login);
       }
-      router.replace("/");
+      router.replace("/dialogs");
     }
   });
 
@@ -103,7 +103,7 @@ export const Login = (callback, deps) => {
             </StyledButton>
             <Links>
               <StyledLink href="/forgot" variant="body2">
-                Забыли пароль?
+                {/*Забыли пароль?*/}
               </StyledLink>
               <StyledLink href="registration" variant="body2">
                 Нет аккаунта? Зарегистрируйтесь

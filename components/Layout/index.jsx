@@ -12,7 +12,7 @@ export const Layout = memo(props => {
   );
 });
 
-const StyledLayout = styled.div`
+export const StyledLayout = styled.div`
   position: relative;
   background-color: #17212b;
   width: 100vw;

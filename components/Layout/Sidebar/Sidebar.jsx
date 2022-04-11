@@ -8,10 +8,8 @@ import axios from "axios";
 import ListOfDialogs from "../../ListOfDialogs";
 import {
   StyledSidebar,
-  SearchInput,
   StyledToolbar,
   Header,
-  OpenHidden,
   Footer,
   Main
 } from "./styled";

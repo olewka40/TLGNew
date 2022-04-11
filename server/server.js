@@ -233,8 +233,6 @@ nextApp.prepare().then(() => {
 
   app.post("/api/createDialog", async (req, res) => {
     const { userId, secondUserId } = req.body;
-    console.log(userId, "userId");
-    console.log(secondUserId, "secondUserId");
     const dialogsOne = await Database.dialog_provider.find({
       "users.userId": userId
     });
