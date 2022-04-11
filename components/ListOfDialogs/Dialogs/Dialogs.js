@@ -20,9 +20,10 @@ export const Dialogs = memo(props => {
   }, []);
   const router = useRouter();
   const { id } = router.query;
+  console.log(id);
   return (
     <List opened={opened}>
-      { dialogs.map(({ _id, name, message, time, users }) => (
+      {dialogs.map(({ _id, name, message, time, users }) => (
         <Dialog
           userId={userId}
           opened={opened}

@@ -39,7 +39,7 @@ export const Login = (callback, deps) => {
       } else {
         localStorage.setItem("rememberMeLogin", login);
       }
-      router.replace("/dialogs");
+      router.replace("/");
     }
   });
 

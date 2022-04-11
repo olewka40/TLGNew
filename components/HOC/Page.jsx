@@ -32,6 +32,7 @@ export default function withContextPage(Component) {
 
     updateDialog = (dialogid, params) => {
       const { dialogs } = this.state;
+      console.log(dialogs);
       const dialogIndex = dialogs.findIndex(dialog => dialog._id === dialogid);
 
       const newDialog = { ...dialogs[dialogIndex], ...params };
@@ -57,7 +58,10 @@ export default function withContextPage(Component) {
       const appProps =
         Component.getInitialProps &&
         (await Component.getInitialProps(appContext));
+      console.log(appProps);
+
       const { userId } = cookies(appContext);
+      console.log(appContext, userId);
       const {
         data: { data: dialogs }
       } = await axios.get(`/api/getDialogs/${userId}`, { headers: { userId } });
