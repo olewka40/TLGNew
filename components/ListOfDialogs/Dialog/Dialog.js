@@ -28,7 +28,6 @@ export const Dialog = ({
 }) => {
   const router = useRouter();
   const [avatar, setAvatar] = useState("");
-  console.log(time._isValid);
   const handleGetAvatars = useCallback(async () => {
     const sobesednikId = users.filter(e => e.userId !== userId)[0].userId;
     const { data } = await axios.get(`/api/getUserAvatar/${sobesednikId}`);
@@ -64,7 +63,7 @@ export const Dialog = ({
             <MsgInfo>
               <CheckIcon color="primary" fontSize="small" />
               <Time>
-                {time._isValid && <Moment format="HH:mm">{time}</Moment>}
+                {time?._isValid && <Moment format="HH:mm">{time}</Moment>}
               </Time>
             </MsgInfo>
           </TopInfo>

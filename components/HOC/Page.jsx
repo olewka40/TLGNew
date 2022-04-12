@@ -46,11 +46,12 @@ export default function withContextPage(Component) {
       const { userId } = this.props;
       console.log(userId);
       const {
-        data: { data }
+        data: { data: dialogs }
       } = await axios.get(`/api/getDialogs/${userId}`, {
         headers: { userId }
       });
-      console.log(data);
+      console.log(dialogs);
+      this.setState({ dialogs });
     };
 
     static async getInitialProps(appContext) {

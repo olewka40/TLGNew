@@ -4,18 +4,19 @@ import { MenuItem } from "@material-ui/core";
 import axios from "axios";
 import styled from "styled-components";
 import { UserContext } from "../../../../context/user";
+import { DialogsContext } from "../../../../context/listDialogs";
 
 export const SearchUser = () => {
   const [users, setUsers] = useState(null);
   const { userId } = useContext(UserContext);
+  const { refreshDialogs } = useContext(DialogsContext);
   const createRoomWithUser = async value => {
     const { data } = await axios.post("/api/createDialog", {
       userId,
       secondUserId: value
     });
-    console.log(data);
+    refreshDialogs();
     alert(data.message);
-    // window.location.reload();
   };
 
   const getAllUsers = async () => {
