@@ -233,20 +233,17 @@ nextApp.prepare().then(() => {
 
   app.post("/api/createDialog", async (req, res) => {
     const { userId, secondUserId } = req.body;
-    const dialogsOne = await Database.dialog_provider.find({
-      "users.userId": userId
-    });
-    const dialogs = dialogsOne.map(e => {
-      return e.users;
-    })[0];
-    console.log(dialogs, "d1");
     const user = await Database.user_provider.findOne({ _id: userId });
     const secondUser = await Database.user_provider.findOne({
       _id: secondUserId
     });
-    if (!dialogs) {
-      console.log("нет диалогов");
+    const variant = `${user.login} ${secondUser.login}`;
+    const variant2 = `${secondUser.login} ${user.login}`;
 
+    const dialogs = await Database.dialog_provider.find({ name: variant });
+    const dialogs1 = await Database.dialog_provider.find({ name: variant2 });
+
+    if (dialogs.length === 0 && dialogs1.length === 0) {
       await Database.dialog_provider.insert(
         {
           name: `${user.login} ${secondUser.login}`,
@@ -258,22 +255,8 @@ nextApp.prepare().then(() => {
       );
       res.json({ status: 201, message: `Диалог успешно создан` });
     } else {
-      const isHaveDialog = dialogs.some(dia => dia.userId === secondUserId);
-      console.log(isHaveDialog, "isHaveDialog");
-      if (isHaveDialog) {
-        res.json({ status: 201, message: `Диалог уже существует` });
-      } else {
-        await Database.dialog_provider.insert(
-          {
-            name: `${user.login} ${secondUser.login}`,
-            users: [{ userId: user._id }, { userId: secondUser._id }]
-          },
-          (err, docs) => {
-            console.log(err, docs, "docs");
-          }
-        );
-        res.json({ status: 201, message: `Диалог успешно создан` });
-      }
+      console.log("диалоги есть");
+      res.json({ status: 201, message: `Диалог уже существует` });
     }
   });
   app.get("/api/getDialogs/:userId", async (req, res) => {
