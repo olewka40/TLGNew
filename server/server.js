@@ -210,15 +210,27 @@ nextApp.prepare().then(() => {
     });
   });
 
-  app.get("/api/getUserInfo", async (req, res) => {
-    const userid = req.cookies.userId;
-    const userInfo = await Database.user_provider.find({
-      _id: userid
-    });
+  app.get("/api/getUserInfo/:userId", async (req, res) => {
+    const { userId } = req.params;
+    console.log(typeof userId, "userId");
+    if (userId == 99663300) {
+      const userid = req.cookies.userId;
+      const userInfo = await Database.user_provider.find({
+        _id: userid
+      });
 
-    res.json({
-      userInfo: userInfo
-    });
+      res.json({
+        userInfo: userInfo
+      });
+    } else {
+      const userInfo = await Database.user_provider.find({
+        _id: userId
+      });
+
+      res.json({
+        userInfo: userInfo
+      });
+    }
   });
 
   app.get("/api/getUserAvatar/:avatarUser", async (req, res) => {

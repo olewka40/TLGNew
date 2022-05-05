@@ -2,7 +2,8 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 
 import styled from "styled-components";
-export const FileUpload = () => {
+import {StyledButton} from "../components/Registration/styled";
+export const FileUpload = ({ getUserInfo }) => {
   const [files, setFiles] = useState(""); // storing the uploaded file    // storing the recived file from backend
   const [data, getFile] = useState([{ name: "", path: "" }]);
   const [progress, setProgress] = useState(0); // progess bar
@@ -31,20 +32,42 @@ export const FileUpload = () => {
           name: res.data.data[0].name,
           path: "http://localhost:3000/api/files/" + res.data.data[0].link
         });
+        getUserInfo();
       })
       .catch(err => console.log(err));
   };
   return (
     <UploadFilesContainer>
-      <input type="file" ref={el} onChange={handleChange} />
-      <div>{progress}</div>
-      <>{progress}</>
-      <button onClick={uploadFile}>Upload</button>
+      <input
+        ref={el}
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handleChange}
+      />
+
+      <StyledButton
+        onClick={() => el.current && el.current.click()}
+        variant="contained"
+      >
+        Выберите файл
+      </StyledButton>
+
+      <StyledButton color="primary" variant="outlined" onClick={uploadFile}>
+        Загрузить
+      </StyledButton>
     </UploadFilesContainer>
   );
 };
 export default FileUpload;
 
 const UploadFilesContainer = styled.div`
-  background-color: #2d343c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  > {
+    margin: 10px;
+  }
 `;
