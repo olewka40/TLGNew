@@ -42,14 +42,16 @@ export const Sidebar = memo(() => {
           {opened && (
             <>
               <SearchUser />
+              <MyProfile userId={userId} />
+              {/*<IconButton*/}
+              {/*  onClick={() => {*/}
+              {/*    // router.push("/locked");*/}
+              {/*  }}*/}
+              {/*>*/}
+              {/*  <LockOpenIcon color="disabled" />*/}
+              {/*    */}
 
-              <IconButton
-                onClick={() => {
-                  // router.push("/locked");
-                }}
-              >
-                <LockOpenIcon color="disabled" />
-              </IconButton>
+              {/*</IconButton>*/}
             </>
           )}
         </StyledToolbar>
@@ -61,7 +63,6 @@ export const Sidebar = memo(() => {
         <IconButton size="medium">
           <ExitToAppIcon color="primary" fontSize="large" onClick={logout} />
         </IconButton>
-        {/*<MyProfile userId={userId} />*/}
       </Footer>
     </StyledSidebar>
   );

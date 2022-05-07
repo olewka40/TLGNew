@@ -122,11 +122,20 @@ nextApp.prepare().then(() => {
 
     socket.on("connect-to", ({ dialogId }) => {
       socket.join(dialogId);
-
+      Database.user_provider.update(
+        { _id: userid },
+        { $set: { lastTimeOnline: Date.now() } },
+        { multi: true }
+      );
     });
 
     socket.on("leave-the-room", ({ dialogId }) => {
       socket.leave(dialogId);
+      Database.user_provider.update(
+        { _id: userid },
+        { $set: { lastTimeOnline: Date.now() } },
+        { multi: true }
+      );
     });
 
     socket.on("message-to-dialog", ({ dialogId, message }) => {
@@ -140,6 +149,11 @@ nextApp.prepare().then(() => {
         senderId: userid,
         dialogId: dialogId
       });
+      Database.user_provider.update(
+        { _id: userid },
+        { $set: { lastTimeOnline: Date.now() } },
+        { multi: true }
+      );
 
       io.to(dialogId).emit("messageFromOpenChat", {
         message,
@@ -213,12 +227,12 @@ nextApp.prepare().then(() => {
 
   app.get("/api/getUserInfo/:userId", async (req, res) => {
     const { userId } = req.params;
-    console.log(typeof userId, "userId");
     if (userId == 99663300) {
       const userid = req.cookies.userId;
       const userInfo = await Database.user_provider.find({
         _id: userid
       });
+      console.log(userInfo);
 
       res.json({
         userInfo: userInfo
@@ -227,6 +241,7 @@ nextApp.prepare().then(() => {
       const userInfo = await Database.user_provider.find({
         _id: userId
       });
+      console.log(userInfo);
 
       res.json({
         userInfo: userInfo
@@ -321,7 +336,8 @@ async function initializeDB() {
       firstName: "test1",
       lastName: "test1",
       avatar: "/default_avatar.png",
-      email: "123@mail.ri"
+      email: "123@mail.ri",
+      lastTimeOnline: Date.now()
     });
     Database.user_provider.insert({
       login: "test2",
@@ -329,7 +345,8 @@ async function initializeDB() {
       firstName: "test2",
       lastName: "test2",
       avatar: "/default_avatar.png",
-      email: "test2@mail.ri"
+      email: "test2@mail.ri",
+      lastTimeOnline: Date.now()
     });
     Database.user_provider.insert({
       login: "test3",
@@ -337,7 +354,8 @@ async function initializeDB() {
       firstName: "test3",
       lastName: "test3",
       avatar: "/default_avatar.png",
-      email: "test3@mail.ri"
+      email: "test3@mail.ri",
+      lastTimeOnline: Date.now()
     });
   }
 

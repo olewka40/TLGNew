@@ -5,12 +5,14 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
+  Dialog
 } from "@material-ui/core";
-import { Dialog } from "../ListOfDialogs/Dialog/Dialog";
 import { UserContext } from "../../context/user";
 import { DialogsContext } from "../../context/listDialogs";
 import { useRouter } from "next/router";
+import Moment from "react-moment";
+import moment from "moment";
 
 export const MemberDialogProfile = () => {
   const router = useRouter();
@@ -30,33 +32,35 @@ export const MemberDialogProfile = () => {
 
   const [profileInfo, setProfileInfo] = useState(null);
   const getUserInfo = useCallback(async () => {
-    console.log(2);
-    if (!dialog) {
-      return;
-    } else {
-      const notMeUserObject = dialog.users.find(e => userId !== e.userId);
-      console.log(notMeUserObject, "notMeUserObject");
-      const { data } = await axios.get(
-        `/api/getUserInfo/${notMeUserObject.userId}`
-      );
-      setProfileInfo(data.userInfo[0]);
-    }
+    const notMeUserObject = dialog.users.find(e => userId !== e.userId);
+    const {
+      data: { userInfo }
+    } = await axios.get(`/api/getUserInfo/${notMeUserObject.userId}`);
+    console.log(userInfo, "data");
+    setProfileInfo(userInfo[0]);
   }, [dialog]);
 
   useEffect(() => {
-    console.log(1, dialog);
     if (dialog) {
       getUserInfo();
-    } else {
-      return;
     }
   }, [dialog]);
+
+  const dateConverter = lastTimeOnline => {
+    const date = moment(lastTimeOnline)
+      .lang("ru")
+      .startOf()
+      .fromNow();
+    return date;
+  };
+
   return (
     <>
-      <Button onClick={handleClickOpen}>123312132</Button>
       <Profile onClick={handleClickOpen}>
         <UserName>{dialog?.name}</UserName>
-        <LastOnline>недавно</LastOnline>
+        <LastOnline>
+          <>был(а) в сети {dateConverter(profileInfo?.lastTimeOnline)}</>
+        </LastOnline>
       </Profile>
       <Dialog
         onClose={handleClose}
@@ -81,14 +85,13 @@ export const MemberDialogProfile = () => {
                 <Text> firstName: {profileInfo.firstName}</Text>
                 <Text> _id: {profileInfo._id}</Text>
               </Info>
-              )}
             </>
           ) : (
             "Отсутствует информация о профиле"
           )}
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="primary">
             Закрыть
           </Button>
         </DialogActions>

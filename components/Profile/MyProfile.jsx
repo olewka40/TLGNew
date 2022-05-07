@@ -3,14 +3,13 @@ import styled from "styled-components";
 import axios from "axios";
 import {
   Button,
-  Card,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   IconButton
 } from "@material-ui/core";
 import FileUpload from "../../pages/upload";
-import { Dialog } from "../ListOfDialogs/Dialog/Dialog";
 import { AccountCircle } from "@material-ui/icons";
 
 export const MyProfile = ({ userId }) => {
@@ -40,7 +39,7 @@ export const MyProfile = ({ userId }) => {
   return (
     <>
       <IconButton onClick={handleClickOpen}>
-        <AccountCircle />
+        <AccountCircle color="primary" />
       </IconButton>
       <Dialog
         onClose={handleClose}
@@ -52,7 +51,14 @@ export const MyProfile = ({ userId }) => {
         </DialogTitle>
         <DialogContent dividers>
           {profileInfo ? (
-            <>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
               <img
                 style={{ margin: 20 }}
                 width="200px"
@@ -73,17 +79,10 @@ export const MyProfile = ({ userId }) => {
                 >
                   Сменить Аватар
                 </Button>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={handleClose}
-                >
-                  Закрыть окно
-                </Button>
+
                 {changeAvatar && <FileUpload getUserInfo={getUserInfo} />}
               </>
-              )}
-            </>
+            </div>
           ) : (
             "Отсутствует информация о профиле"
           )}
