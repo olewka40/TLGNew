@@ -13,7 +13,7 @@ export const MainItems = styled.div`
   flex-direction: column;
 `;
 
-export const Messeges = styled.div`
+export const Messages = styled.div`
   height: 100%;
   background: #0e1621;
   overflow-y: auto;

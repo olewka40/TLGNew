@@ -10,6 +10,8 @@ export const DialogContainer = styled.div`
   justify-content: left;
   align-items: center;
   padding: 7px 16px;
+  cursor: pointer;
+
   ${p =>
     p.active &&
     css`

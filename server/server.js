@@ -122,6 +122,7 @@ nextApp.prepare().then(() => {
 
     socket.on("connect-to", ({ dialogId }) => {
       socket.join(dialogId);
+
     });
 
     socket.on("leave-the-room", ({ dialogId }) => {

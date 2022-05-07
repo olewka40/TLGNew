@@ -3,24 +3,19 @@ import styled from "styled-components";
 import axios from "axios";
 import {
   Button,
+  Card,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
+  IconButton
 } from "@material-ui/core";
+import FileUpload from "../../pages/upload";
 import { Dialog } from "../ListOfDialogs/Dialog/Dialog";
-import { UserContext } from "../../context/user";
-import { DialogsContext } from "../../context/listDialogs";
-import { useRouter } from "next/router";
+import { AccountCircle } from "@material-ui/icons";
 
-export const MemberDialogProfile = () => {
-  const router = useRouter();
-
-  const { dialogs } = useContext(DialogsContext);
-  const dialog = dialogs.find(dialog => dialog._id === router.query.id);
-  const { userId } = useContext(UserContext);
-
+export const MyProfile = ({ userId }) => {
   const [open, setOpen] = useState(false);
-  console.log(dialog, open, "dialog");
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -29,35 +24,24 @@ export const MemberDialogProfile = () => {
   };
 
   const [profileInfo, setProfileInfo] = useState(null);
+  const [changeAvatar, setChangeAvatar] = useState(false);
   const getUserInfo = useCallback(async () => {
-    console.log(2);
-    if (!dialog) {
-      return;
-    } else {
-      const notMeUserObject = dialog.users.find(e => userId !== e.userId);
-      console.log(notMeUserObject, "notMeUserObject");
-      const { data } = await axios.get(
-        `/api/getUserInfo/${notMeUserObject.userId}`
-      );
-      setProfileInfo(data.userInfo[0]);
-    }
-  }, [dialog]);
+    const { data } = await axios.get(`/api/getUserInfo/${userId}`);
+    setProfileInfo(data.userInfo[0]);
+  }, [userId]);
+
+  const handleChangeAvatar = useCallback(() => {
+    setChangeAvatar(changeAvatar => !changeAvatar);
+  }, []);
 
   useEffect(() => {
-    console.log(1, dialog);
-    if (dialog) {
-      getUserInfo();
-    } else {
-      return;
-    }
-  }, [dialog]);
+    getUserInfo();
+  }, [userId]);
   return (
     <>
-      <Button onClick={handleClickOpen}>123312132</Button>
-      <Profile onClick={handleClickOpen}>
-        <UserName>{dialog?.name}</UserName>
-        <LastOnline>недавно</LastOnline>
-      </Profile>
+      <IconButton onClick={handleClickOpen}>
+        <AccountCircle />
+      </IconButton>
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -81,6 +65,23 @@ export const MemberDialogProfile = () => {
                 <Text> firstName: {profileInfo.firstName}</Text>
                 <Text> _id: {profileInfo._id}</Text>
               </Info>
+              <>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleChangeAvatar}
+                >
+                  Сменить Аватар
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleClose}
+                >
+                  Закрыть окно
+                </Button>
+                {changeAvatar && <FileUpload getUserInfo={getUserInfo} />}
+              </>
               )}
             </>
           ) : (
@@ -106,19 +107,4 @@ const Info = styled.div`
 const Text = styled.div`
   margin-top: 5px;
   margin-bottom: 5px;
-`;
-const Profile = styled.div`
-  display: flex;
-  margin-left: 15px;
-  flex-direction: column;
-  justify-content: space-around;
-`;
-const UserName = styled.div`
-  color: white;
-  font-size: 16px;
-`;
-const LastOnline = styled.div`
-  color: grey;
-  margin-right: 10px;
-  font-size: 14px;
 `;

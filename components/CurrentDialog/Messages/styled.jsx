@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const ListOfMesseges = styled.div`
+export const ListOfMessages = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-start;
@@ -21,7 +21,7 @@ export const TextMessage = styled.div`
   word-break: break-word;
   white-space: pre-wrap;
 `;
-export const Messege = styled.div`
+export const Message = styled.div`
   display: flex;
   align-items: center;
   font-size: 16px;

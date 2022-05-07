@@ -8,9 +8,9 @@ import React, {
 import Emoji from "react-emoji-render";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import {
-  ListOfMesseges,
+  ListOfMessages,
   ImgAvatarCurrent,
-  Messege,
+  Message,
   TextMessage,
   Time,
   Readed
@@ -41,9 +41,9 @@ export const DialogsList = memo(({ message }) => {
     handleGetAvatars();
   }, []);
   return (
-    <ListOfMesseges myMsg={myMsg} key={message.id}>
+    <ListOfMessages myMsg={myMsg} key={message.id}>
       <ImgAvatarCurrent src={`http://localhost:3000/api/files/${avatar}`} />
-      <Messege>
+      <Message>
         <TextMessage>
           <Emoji text={message.text} />
         </TextMessage>
@@ -56,7 +56,7 @@ export const DialogsList = memo(({ message }) => {
             <DoneAllIcon color="primary" />
           </Readed>
         )}
-      </Messege>
-    </ListOfMesseges>
+      </Message>
+    </ListOfMessages>
   );
 });
