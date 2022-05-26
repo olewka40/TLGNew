@@ -40,7 +40,6 @@ export const Footer = memo(({ message, setMessage }) => {
   };
   const onMouseOver = useCallback(() => {
     if (isLayoutOpened) {
-      console.log(123123, isLayoutOpened);
       return null;
     } else {
       setHovered(true);

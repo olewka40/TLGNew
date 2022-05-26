@@ -10,7 +10,7 @@ import browserCookies from "browser-cookies";
 import { UserContext } from "../../context/user";
 import { apiMessageToMessage } from "../../utils/converter";
 
-axios.defaults.baseURL = "http://localhost:3000/";
+axios.defaults.baseURL = "http://localhost:3000";
 
 export default function withContextPage(Component) {
   class Page extends React.Component {
@@ -32,7 +32,6 @@ export default function withContextPage(Component) {
 
     updateDialog = (dialogid, params) => {
       const { dialogs } = this.state;
-      console.log(dialogs);
       const dialogIndex = dialogs.findIndex(dialog => dialog._id === dialogid);
 
       const newDialog = { ...dialogs[dialogIndex], ...params };
@@ -44,25 +43,28 @@ export default function withContextPage(Component) {
 
     refreshDialogs = async () => {
       const { userId } = this.props;
-      console.log(userId);
       const {
         data: { data: dialogs }
       } = await axios.get(`/api/getDialogs/${userId}`, {
         headers: { userId }
       });
-      console.log(dialogs);
       this.setState({ dialogs });
     };
 
     static async getInitialProps(appContext) {
+      // if (typeof window === "undefined") {
+      //   return {
+      //     userId: null,
+      //     dialogs: []
+      //   };
+      // }
       // calls page's `getInitialProps` and fills `appProps.pageProps`
       const appProps =
         Component.getInitialProps &&
         (await Component.getInitialProps(appContext));
-      console.log(appProps);
+
 
       const { userId } = cookies(appContext);
-      console.log(appContext, userId);
       const {
         data: { data: dialogs }
       } = await axios.get(`/api/getDialogs/${userId}`, { headers: { userId } });

@@ -66,10 +66,10 @@ export const MyProfile = ({ userId }) => {
                 alt="Avatar"
               />
               <Info>
-                <Text>email: {profileInfo.email}</Text>
-                <Text>login: {profileInfo.login}</Text>
-                <Text> firstName: {profileInfo.firstName}</Text>
-                <Text> _id: {profileInfo._id}</Text>
+                <Text>Почта: {profileInfo.email}</Text>
+                <Text>Логин: {profileInfo.login}</Text>
+                <Text> Имя: {profileInfo.firstName}</Text>
+                <Text> ID Пользователя: {profileInfo._id}</Text>
               </Info>
               <>
                 <Button
@@ -100,8 +100,7 @@ export const MyProfile = ({ userId }) => {
 const Info = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  text-align: left;
 `;
 const Text = styled.div`
   margin-top: 5px;

@@ -18,10 +18,8 @@ class MessageProvider {
         .sort({ time: 1 })
         .exec((err, data) => {
           modifiers && modifiers(err, data);
-          // если ошибка тупо выходим
           if (err) return reject();
 
-          // иначе возвращаем данные
           resolve(data);
         });
     });
@@ -30,17 +28,27 @@ class MessageProvider {
   async findOne(query) {
     return new Promise((resolve, reject) => {
       this.messageDB.findOne(query, (err, data) => {
-        // если ошибка тупо выходим
         if (err) return reject();
 
-        // иначе возвращаем данные
         resolve(data);
       });
     });
   }
-
+  async update(query, data, settings) {
+    return new Promise((resolve, reject) => {
+      this.messageDB.update(query, data, settings, (err, data) => {
+        if (err) return reject();
+        resolve(data);
+      });
+    });
+  }
   insert(message) {
-    this.messageDB.insert(message);
+    return new Promise((resolve, reject) => {
+      this.messageDB.insert(message, (err, data) => {
+        if (err) return reject();
+        resolve(data);
+      });
+    });
   }
 }
 

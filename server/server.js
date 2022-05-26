@@ -15,6 +15,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const _ = require("lodash");
 const express = require("express/lib/express");
+const CryptoJS = require("crypto-js");
 
 initializeDB();
 
@@ -49,9 +50,11 @@ nextApp.prepare().then(() => {
       try {
         const { login, password, firstName, lastName, email } = req.body;
 
+        const passHash = CryptoJS.SHA256(password);
+
         Database.user_provider.insert({
           login,
-          password,
+          password: passHash,
           firstName,
           lastName,
           email
@@ -71,7 +74,7 @@ nextApp.prepare().then(() => {
     } else {
       const user = await Database.user_provider.findOne({
         login: userName,
-        password: userPassword
+        password: CryptoJS.SHA256(userPassword)
       });
 
       if (user) {
@@ -137,17 +140,34 @@ nextApp.prepare().then(() => {
       );
     });
 
-    socket.on("message-to-dialog", ({ dialogId, message }) => {
+    socket.on("readMessage", async ({ messageId }) => {
+      Database.message_provider.update(
+        { _id: messageId },
+        { $set: { readed: true } },
+        { multi: false }
+      );
+      const message = await Database.message_provider.findOne({
+        _id: messageId
+      });
+      console.log(message);
+      socket.to(messageId).emit("updateMessage", {
+        message
+      });
+    });
+
+    socket.on("message-to-dialog", async ({ dialogId, message }) => {
       if (!message) return;
       const currentTime = new Date();
 
-      Database.message_provider.insert({
+      const msg = await Database.message_provider.insert({
         text: message,
         time: Date.now(),
         readed: false,
         senderId: userid,
         dialogId: dialogId
       });
+      socket.join(msg._id);
+
       Database.user_provider.update(
         { _id: userid },
         { $set: { lastTimeOnline: Date.now() } },
@@ -231,7 +251,6 @@ nextApp.prepare().then(() => {
       const userInfo = await Database.user_provider.find({
         _id: userid
       });
-      console.log(userInfo);
 
       res.json({
         userInfo: userInfo
@@ -240,7 +259,6 @@ nextApp.prepare().then(() => {
       const userInfo = await Database.user_provider.find({
         _id: userId
       });
-      console.log(userInfo);
 
       res.json({
         userInfo: userInfo
@@ -282,13 +300,11 @@ nextApp.prepare().then(() => {
       );
       res.json({ status: 201, message: `Диалог успешно создан` });
     } else {
-      console.log("диалоги есть");
       res.json({ status: 201, message: `Диалог уже существует` });
     }
   });
   app.get("/api/getDialogs/:userId", async (req, res) => {
     const { userId } = req.params;
-    console.log(userId);
     const user = await Database.user_provider.findOne({ _id: userId });
     const dialogs = await Database.dialog_provider.find({
       "users.userId": user._id
@@ -304,6 +320,7 @@ nextApp.prepare().then(() => {
 
         dialog.message = lastMessage ? lastMessage.text : "";
         dialog.time = lastMessage ? lastMessage.time : null;
+        dialog.readed = lastMessage ? lastMessage.readed : false;
       }
     };
     await getMessagesForDialogs();
@@ -331,7 +348,7 @@ async function initializeDB() {
   if (!createdUser) {
     Database.user_provider.insert({
       login: "test1",
-      password: "test1",
+      password: CryptoJS.SHA256("test1"),
       firstName: "test1",
       lastName: "test1",
       avatar: "/default_avatar.png",
@@ -340,7 +357,7 @@ async function initializeDB() {
     });
     Database.user_provider.insert({
       login: "test2",
-      password: "test2",
+      password: CryptoJS.SHA256("test2"),
       firstName: "test2",
       lastName: "test2",
       avatar: "/default_avatar.png",
@@ -349,7 +366,7 @@ async function initializeDB() {
     });
     Database.user_provider.insert({
       login: "test3",
-      password: "test3",
+      password: CryptoJS.SHA256("test3"),
       firstName: "test3",
       lastName: "test3",
       avatar: "/default_avatar.png",

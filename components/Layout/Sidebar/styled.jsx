@@ -30,10 +30,9 @@ export const Main = styled.div`
 `;
 export const Footer = styled.div`
   display: flex;
-  justify-content:${({ opened }) => (!opened ? "center" : "flex-end")};
+  justify-content: ${({ opened }) => (!opened ? "center" : "flex-end")};
   background: #17212b;
   min-height: 50px;
-  
 `;
 export const StyledToolbar = styled.div`
   display: flex;

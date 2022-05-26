@@ -18,12 +18,14 @@ import {
 import { UserContext } from "../../../context/user";
 import Moment from "react-moment";
 import axios from "axios";
+import SocketService from "../../../services/SocketService";
+import CheckIcon from "@material-ui/icons/Check";
 
-export const DialogsList = memo(({ message }) => {
+export const DialogsList = memo(({ dialogMessage }) => {
   const { userId } = useContext(UserContext);
   const [avatar, setAvatar] = useState("");
+  const [message, setMessage] = useState(dialogMessage);
   const myMsg = message.senderId === userId;
-
   const handleGetAvatars = useCallback(async () => {
     if (!myMsg) {
       const { data } = await axios.get(
@@ -39,7 +41,20 @@ export const DialogsList = memo(({ message }) => {
 
   useEffect(() => {
     handleGetAvatars();
+    if (!message.readed) {
+      SocketService.on("updateMessage", ({ message }) => {
+        setMessage(message);
+      });
+
+      if (!myMsg) {
+        SocketService.emit("readMessage", {
+          messageId: message._id
+        });
+      }
+    }
   }, []);
+  useEffect(() => {});
+
   return (
     <ListOfMessages myMsg={myMsg} key={message.id}>
       <ImgAvatarCurrent src={`http://localhost:3000/api/files/${avatar}`} />
@@ -52,8 +67,11 @@ export const DialogsList = memo(({ message }) => {
         </Time>
         {myMsg && (
           <Readed>
-            {/*<CheckIcon color={"primary"} />*/}
-            <DoneAllIcon color="primary" />
+            {message.readed ? (
+              <DoneAllIcon color="primary" />
+            ) : (
+              <CheckIcon color={"primary"} />
+            )}
           </Readed>
         )}
       </Message>

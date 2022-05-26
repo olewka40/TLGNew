@@ -19,7 +19,7 @@ export const DialogContainer = memo(() => {
           <Header />
           <Messages>
             {messages.map(message => (
-              <DialogsList key={message.id} message={message} />
+              <DialogsList key={message.id} dialogMessage={message} />
             ))}
           </Messages>
           <Footer setMessage={setMessage} message={message} />

@@ -15,6 +15,7 @@ import {
   Message
 } from "./styled";
 import axios from "axios";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 
 export const Dialog = ({
   userId,
@@ -24,10 +25,12 @@ export const Dialog = ({
   message,
   time,
   users,
+  readed,
   opened
 }) => {
   const router = useRouter();
   const [avatar, setAvatar] = useState("");
+  console.log(message);
   const handleGetAvatars = useCallback(async () => {
     const sobesednikId = users.filter(e => e.userId !== userId)[0].userId;
     const { data } = await axios.get(`/api/getUserAvatar/${sobesednikId}`);
@@ -61,7 +64,12 @@ export const Dialog = ({
           <TopInfo>
             <UserName>{name} </UserName>
             <MsgInfo>
-              <CheckIcon color="primary" fontSize="small" />
+              {!readed ? (
+                <CheckIcon color="primary" fontSize="small" />
+              ) : (
+                <DoneAllIcon color="primary" fontSize="small" />
+              )}
+
               <Time>
                 {time?._isValid && <Moment format="HH:mm">{time}</Moment>}
               </Time>

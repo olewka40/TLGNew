@@ -6,7 +6,6 @@ import { EmojiPicker } from "./EmojiPicker";
 import SwipeableViews from "react-swipeable-views";
 
 export const EmojiBar = ({ setMessage, message }) => {
-  console.log(setMessage, message);
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);

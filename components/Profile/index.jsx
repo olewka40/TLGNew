@@ -22,7 +22,6 @@ export const MemberDialogProfile = () => {
   const { userId } = useContext(UserContext);
 
   const [open, setOpen] = useState(false);
-  console.log(dialog, open, "dialog");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -36,7 +35,6 @@ export const MemberDialogProfile = () => {
     const {
       data: { userInfo }
     } = await axios.get(`/api/getUserInfo/${notMeUserObject.userId}`);
-    console.log(userInfo, "data");
     setProfileInfo(userInfo[0]);
   }, [dialog]);
 

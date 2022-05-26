@@ -11,6 +11,11 @@ import { apiMessageToMessage } from "../../utils/converter";
 @withRouter
 class Id extends Component {
   static async getInitialProps(ctx) {
+    // if (typeof window === "undefined") {
+    //   return {
+    //     data: []
+    //   };
+    // }
     const { id } = ctx.query;
     const { userId } = cookies(ctx);
     const { data } = await axios.get(`/api/getMessages/${id}`, {

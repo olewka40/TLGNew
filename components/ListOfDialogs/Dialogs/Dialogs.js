@@ -20,10 +20,9 @@ export const Dialogs = memo(props => {
   }, []);
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
   return (
     <List opened={opened}>
-      {dialogs.map(({ _id, name, message, time, users }) => (
+      {dialogs.map(({ _id, name, message, time, users,readed }) => (
         <Dialog
           userId={userId}
           opened={opened}
@@ -34,6 +33,7 @@ export const Dialogs = memo(props => {
           message={message}
           time={time}
           users={users}
+          readed={readed}
         />
       ))}
     </List>

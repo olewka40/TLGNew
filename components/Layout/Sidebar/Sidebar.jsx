@@ -60,8 +60,8 @@ export const Sidebar = memo(() => {
         <ListOfDialogs opened={opened} />
       </Main>
       <Footer opened={opened}>
-        <IconButton size="medium">
-          <ExitToAppIcon color="primary" fontSize="large" onClick={logout} />
+        <IconButton size="medium" onClick={logout}>
+          <ExitToAppIcon color="primary" fontSize="large" />
         </IconButton>
       </Footer>
     </StyledSidebar>

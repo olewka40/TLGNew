@@ -53,9 +53,11 @@ export const BotInfo = styled.div`
 export const Time = styled.div`
   color: grey;
   margin-right: 10px;
+  margin-left: 5px;
   font-size: 14px;
 `;
 export const MsgInfo = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 `;
