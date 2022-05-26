@@ -11,6 +11,7 @@ import {
 } from "./styled";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Head from "next/head";
+import { checkEmail, checkPass } from "./validators";
 
 export const Registration = memo(() => {
   const [login, setLogin] = useState();
@@ -20,6 +21,22 @@ export const Registration = memo(() => {
   const [email, setEmail] = useState();
   const router = useRouter();
   const tryReg = useCallback(async () => {
+    if (!login || !firstName || !lastName) {
+      alert("Не все поля заполнены");
+      return;
+    }
+    if (!checkPass(password)) {
+      alert(
+        "Пароль должен содержать строчные и прописные буквы, а также содержать от 6 до 20 символов."
+      );
+      return;
+    }
+    if (!checkEmail(email)) {
+      alert(
+        "Введите действующую почту в соответствии с форматом mail@domen.com"
+      );
+      return;
+    }
     const { data } = await axios.post(`api/registration`, {
       login,
       password,

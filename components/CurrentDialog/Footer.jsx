@@ -28,19 +28,19 @@ export const Footer = memo(({ message, setMessage }) => {
 
   const { isLayoutOpened, setLayoutOpened } = useContext(MessageLayoutContext);
   const [isHovered, setHovered] = useState(false);
-  const triggerPicker =     event => {
-      console.log("isLayoutOpened", isLayoutOpened);
-      if (isLayoutOpened) {
-        setLayoutOpened(false);
-      }
-      if (!isLayoutOpened) {
-        setLayoutOpened(true);
-      }
-      setLayoutOpened(!isLayoutOpened);
+  const triggerPicker = event => {
+    console.log("isLayoutOpened", isLayoutOpened);
+    if (isLayoutOpened) {
+      setLayoutOpened(false);
     }
+    if (!isLayoutOpened) {
+      setLayoutOpened(true);
+    }
+    setLayoutOpened(!isLayoutOpened);
+  };
   const onMouseOver = useCallback(() => {
     if (isLayoutOpened) {
-      console.log(123123,isLayoutOpened);
+      console.log(123123, isLayoutOpened);
       return null;
     } else {
       setHovered(true);
@@ -93,8 +93,11 @@ const EmojiWrapper = styled.div`
 const MsgPlace = styled.div`
   display: flex;
   background: #17212b;
-  align-items: flex-end;
+  justify-content: center;
   max-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
 `;
 
 const StyledTextArea = styled.div`

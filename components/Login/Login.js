@@ -32,6 +32,9 @@ export const Login = (callback, deps) => {
   const router = useRouter();
   const tryAuth = useCallback(async () => {
     const { data } = await axios.get(`api/authorization/${login}/${password}`);
+    if (data.message) {
+      alert(data.message);
+    }
     if (data && data.status === 200) {
       localStorage.setItem("rememberMe", rememberMe);
       if (!rememberMe) {

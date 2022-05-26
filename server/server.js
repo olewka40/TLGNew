@@ -117,7 +117,6 @@ nextApp.prepare().then(() => {
 
   io.on("connection", function(socket) {
     const { userid } = socket.handshake.query;
-
     socket.join(userid);
 
     socket.on("connect-to", ({ dialogId }) => {

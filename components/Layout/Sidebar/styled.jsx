@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import {Select} from "@material-ui/core";
+import { Select } from "@material-ui/core";
 
 export const StyledSidebar = styled.div`
   display: flex;
@@ -30,9 +30,10 @@ export const Main = styled.div`
 `;
 export const Footer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content:${({ opened }) => (!opened ? "center" : "flex-end")};
   background: #17212b;
   min-height: 50px;
+  
 `;
 export const StyledToolbar = styled.div`
   display: flex;
@@ -44,5 +45,4 @@ export const SearchInput = styled(Select)`
   border-radius: 5px;
   background-color: #232f3d;
   color: white;
- 
 `;
