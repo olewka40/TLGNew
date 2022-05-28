@@ -54,6 +54,7 @@ class Id extends Component {
 
   onMessage = data => {
     const { messages } = this.state;
+
     const clonedMessage = { ...messages[messages.length - 1] };
 
     clonedMessage.text = data.message;
@@ -78,6 +79,8 @@ class Id extends Component {
       dialogId: this.props.router.query.id
     });
     SocketService.off("messageFromOpenChat", this.onMessage);
+    this.setState({ messages: [] });
+
   }
 
   render() {

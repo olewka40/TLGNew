@@ -178,7 +178,8 @@ nextApp.prepare().then(() => {
         message,
         senderId: userid,
         time: currentTime,
-        dialogId: dialogId
+        dialogId: dialogId,
+        readed: false
       });
     });
 
@@ -239,8 +240,8 @@ nextApp.prepare().then(() => {
       dialogId: dialogId
     });
     res.json({
-      dialogId: dialogId,
-      messages: messages
+      dialogId,
+      messages
     });
   });
 
@@ -305,29 +306,39 @@ nextApp.prepare().then(() => {
   });
   app.get("/api/getDialogs/:userId", async (req, res) => {
     const { userId } = req.params;
+    console.log(userId);
     const user = await Database.user_provider.findOne({ _id: userId });
-    const dialogs = await Database.dialog_provider.find({
-      "users.userId": user._id
-    });
-    const getMessagesForDialogs = async () => {
-      for (var i = 0; i < dialogs.length; i++) {
-        const dialog = dialogs[i] || [];
-        const lastMessages = await Database.message_provider.find({
-          dialogId: dialog._id
-        });
+    console.log(user, "UUUSER");
+    if (!user) {
+      res.json({
+        success: false,
+        dialogs: []
+      });
+    } else {
+      const dialogs = await Database.dialog_provider.find({
+        "users.userId": user._id
+      });
+      const getMessagesForDialogs = async () => {
+        for (var i = 0; i < dialogs.length; i++) {
+          const dialog = dialogs[i] || [];
+          const lastMessages = await Database.message_provider.find({
+            dialogId: dialog._id
+          });
 
-        const lastMessage = lastMessages[lastMessages.length - 1];
+          const lastMessage = lastMessages[lastMessages.length - 1];
 
-        dialog.message = lastMessage ? lastMessage.text : "";
-        dialog.time = lastMessage ? lastMessage.time : null;
-        dialog.readed = lastMessage ? lastMessage.readed : false;
-      }
-    };
-    await getMessagesForDialogs();
+          dialog.message = lastMessage ? lastMessage.text : "";
+          dialog.time = lastMessage ? lastMessage.time : null;
+          dialog.readed = lastMessage ? lastMessage.readed : false;
+        }
+      };
+      await getMessagesForDialogs();
 
-    res.json({
-      data: dialogs
-    });
+      res.json({
+        success: true,
+        dialogs
+      });
+    }
   });
 
   app.all("*", (req, res) => {
@@ -380,18 +391,6 @@ async function initializeDB() {
     Database.dialog_provider.insert({
       name: `${user[0].login} ${user[1].login}`,
       users: [{ userId: user[0]._id }, { userId: user[1]._id }]
-    });
-  }
-
-  if (!createdMessage) {
-    const user = await Database.user_provider.find();
-    const dialog = await Database.dialog_provider.find();
-    Database.message_provider.insert({
-      text: "1",
-      time: Date.now(),
-      readed: true,
-      senderId: user[1]._id,
-      dialogId: dialog[0]._id
     });
   }
 }

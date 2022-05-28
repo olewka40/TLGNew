@@ -43,12 +43,10 @@ export default function withContextPage(Component) {
 
     refreshDialogs = async () => {
       const { userId } = this.props;
-      const {
-        data: { data: dialogs }
-      } = await axios.get(`/api/getDialogs/${userId}`, {
+      const { data } = await axios.get(`/api/getDialogs/${userId}`, {
         headers: { userId }
       });
-      this.setState({ dialogs });
+      this.setState({ dialogs: data.dialogs });
     };
 
     static async getInitialProps(appContext) {
@@ -63,29 +61,28 @@ export default function withContextPage(Component) {
         Component.getInitialProps &&
         (await Component.getInitialProps(appContext));
 
-
       const { userId } = cookies(appContext);
-      const {
-        data: { data: dialogs }
-      } = await axios.get(`/api/getDialogs/${userId}`, { headers: { userId } });
-
+      const { data } = await axios.get(`/api/getDialogs/${userId}`, {
+        headers: { userId }
+      });
       return {
         ...appProps,
         userId: userId,
-        dialogs
+        dialogs: data.dialogs,
+        success: data.success
       };
     }
     render() {
       const {
         router: { route },
         userId,
+        success,
         ...appProps
       } = this.props;
       const { dialogs } = this.state;
-      // экшены
       const { updateDialog, refreshDialogs } = this;
       return (
-        <UserContext.Provider value={{ userId }}>
+        <UserContext.Provider value={{ userId, success }}>
           <DialogsContext.Provider
             value={{ dialogs, updateDialog, userId, refreshDialogs }}
           >

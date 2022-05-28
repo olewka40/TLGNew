@@ -25,7 +25,7 @@ export const DialogsList = memo(({ dialogMessage }) => {
   const { userId } = useContext(UserContext);
   const [avatar, setAvatar] = useState("");
   const [message, setMessage] = useState(dialogMessage);
-  const myMsg = message.senderId === userId;
+  const myMsg = message?.senderId === userId;
   const handleGetAvatars = useCallback(async () => {
     if (!myMsg) {
       const { data } = await axios.get(
@@ -52,8 +52,8 @@ export const DialogsList = memo(({ dialogMessage }) => {
         });
       }
     }
-  }, []);
-  useEffect(() => {});
+    setMessage(dialogMessage);
+  }, [dialogMessage]);
 
   return (
     <ListOfMessages myMsg={myMsg} key={message.id}>

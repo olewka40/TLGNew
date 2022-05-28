@@ -8,12 +8,14 @@ import { useRouter } from "next/router";
 import TextareaAutosize from "react-textarea-autosize";
 import { MessageLayoutContext } from "../../context/messageLayoutContext";
 
-import { Popover, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { EmojiBar } from "./EmojiBar";
+import { UserContext } from "../../context/user";
 
-export const Footer = memo(({ message, setMessage }) => {
+export const Footer = memo(({ message, setMessage, messages }) => {
   const router = useRouter();
   const areaRef = useRef();
+  const { userId } = useContext(UserContext);
   const onSend = useCallback(() => {
     if (!areaRef.current.value) return;
 
@@ -24,10 +26,20 @@ export const Footer = memo(({ message, setMessage }) => {
     });
     areaRef.current.value = "";
     setMessage("");
+    areaRef.current.focus();
+    const lastMsg = messages[messages?.length - 1];
+    const isMyMsg = lastMsg?.senderId === userId;
+    console.log(lastMsg);
+    if (!isMyMsg && lastMsg) {
+      SocketService.emit("readMessage", {
+        messageId: lastMsg._id
+      });
+    }
   }, [router.query.id]);
 
   const { isLayoutOpened, setLayoutOpened } = useContext(MessageLayoutContext);
   const [isHovered, setHovered] = useState(false);
+
   const triggerPicker = event => {
     console.log("isLayoutOpened", isLayoutOpened);
     if (isLayoutOpened) {
@@ -38,6 +50,7 @@ export const Footer = memo(({ message, setMessage }) => {
     }
     setLayoutOpened(!isLayoutOpened);
   };
+
   const onMouseOver = useCallback(() => {
     if (isLayoutOpened) {
       return null;
@@ -45,9 +58,11 @@ export const Footer = memo(({ message, setMessage }) => {
       setHovered(true);
     }
   }, [isHovered]);
+
   const onMouseLeave = useCallback(() => {
     setTimeout(setHovered(false), 1000);
   }, []);
+
   return (
     <MsgPlace>
       <IconButton>
@@ -55,6 +70,7 @@ export const Footer = memo(({ message, setMessage }) => {
       </IconButton>
       <StyledTextArea>
         <TextareaAutosize
+          autoFocus
           className="area"
           wrap="soft"
           id="name"
@@ -63,6 +79,13 @@ export const Footer = memo(({ message, setMessage }) => {
           value={message}
           onChange={event => setMessage(event.target.value)}
           ref={areaRef}
+          onKeyPress={event => {
+            if (event.key === "Enter") {
+              event.stopPropagation();
+              event.preventDefault();
+              onSend();
+            }
+          }}
         />
       </StyledTextArea>
       <IconButton onMouseMove={onMouseOver} onMouseLeave={onMouseLeave}>

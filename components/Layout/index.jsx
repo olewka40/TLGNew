@@ -4,6 +4,7 @@ import React, { memo } from "react";
 
 export const Layout = memo(props => {
   const { children, isLogin } = props;
+
   return (
     <StyledLayout>
       {!isLogin && <Sidebar />}
