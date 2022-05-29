@@ -7,10 +7,11 @@ import SocketService from "../../services/SocketService";
 import { useRouter } from "next/router";
 import TextareaAutosize from "react-textarea-autosize";
 import { MessageLayoutContext } from "../../context/messageLayoutContext";
-
-import { IconButton } from "@material-ui/core";
+import TransformIcon from "@material-ui/icons/Transform";
+import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import { EmojiBar } from "./EmojiBar";
 import { UserContext } from "../../context/user";
+import swithcher from "ai-switcher-translit";
 
 export const Footer = memo(({ message, setMessage, messages }) => {
   const router = useRouter();
@@ -29,7 +30,6 @@ export const Footer = memo(({ message, setMessage, messages }) => {
     areaRef.current.focus();
     const lastMsg = messages[messages?.length - 1];
     const isMyMsg = lastMsg?.senderId === userId;
-    console.log(lastMsg);
     if (!isMyMsg && lastMsg) {
       SocketService.emit("readMessage", {
         messageId: lastMsg._id
@@ -62,6 +62,25 @@ export const Footer = memo(({ message, setMessage, messages }) => {
   const onMouseLeave = useCallback(() => {
     setTimeout(setHovered(false), 1000);
   }, []);
+  const switchLang = type => {
+    const result = swithcher.getSwitch(message, {
+      type
+    });
+
+    setMessage(result);
+    handleClose();
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   return (
     <MsgPlace>
@@ -88,6 +107,33 @@ export const Footer = memo(({ message, setMessage, messages }) => {
           }}
         />
       </StyledTextArea>
+      <IconButton
+        disabled={message.indexOf(':') !== -1}
+        onClick={handleClick}
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+      >
+        <TransformIcon color={message.indexOf(':') !== -1 ? '' : 'primary'} />
+      </IconButton>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={() => switchLang("engru")}>
+          English - Русский
+        </MenuItem>
+        <MenuItem onClick={() => switchLang("rueng")}>
+          Русский - English
+        </MenuItem>
+        <MenuItem onClick={() => switchLang("translit")}>Транслит</MenuItem>
+        <MenuItem onClick={() => switchLang("retranslit")}>
+          Ре-Транслит
+        </MenuItem>
+      </Menu>
+
       <IconButton onMouseMove={onMouseOver} onMouseLeave={onMouseLeave}>
         <div onClick={triggerPicker}>
           <MoodIcon color="primary" />
@@ -118,7 +164,6 @@ const MsgPlace = styled.div`
   justify-content: center;
   max-height: 100%;
   display: flex;
-  justify-content: center;
   align-items: baseline;
 `;
 

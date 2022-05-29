@@ -149,7 +149,6 @@ nextApp.prepare().then(() => {
       const message = await Database.message_provider.findOne({
         _id: messageId
       });
-      console.log(message);
       socket.to(messageId).emit("updateMessage", {
         message
       });
@@ -308,7 +307,6 @@ nextApp.prepare().then(() => {
     const { userId } = req.params;
     console.log(userId);
     const user = await Database.user_provider.findOne({ _id: userId });
-    console.log(user, "UUUSER");
     if (!user) {
       res.json({
         success: false,

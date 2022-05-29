@@ -20,9 +20,11 @@ import Moment from "react-moment";
 import axios from "axios";
 import SocketService from "../../../services/SocketService";
 import CheckIcon from "@material-ui/icons/Check";
+import { DialogsContext } from "../../../context/listDialogs";
 
-export const DialogsList = memo(({ dialogMessage }) => {
+export const DialogsList = memo(({ dialogMessage, dialogId }) => {
   const { userId } = useContext(UserContext);
+  const { updateDialog } = useContext(DialogsContext);
   const [avatar, setAvatar] = useState("");
   const [message, setMessage] = useState(dialogMessage);
   const myMsg = message?.senderId === userId;
@@ -44,6 +46,7 @@ export const DialogsList = memo(({ dialogMessage }) => {
     if (!message.readed) {
       SocketService.on("updateMessage", ({ message }) => {
         setMessage(message);
+        updateDialog(dialogId);
       });
 
       if (!myMsg) {
@@ -54,10 +57,20 @@ export const DialogsList = memo(({ dialogMessage }) => {
     }
     setMessage(dialogMessage);
   }, [dialogMessage]);
+  useEffect(() => {
+    if (!message.readed) {
+      if (!myMsg) {
+        SocketService.emit("readMessage", {
+          messageId: message._id
+        });
+      }
+    }
+    setMessage(dialogMessage);
+  });
 
   return (
     <ListOfMessages myMsg={myMsg} key={message.id}>
-      <ImgAvatarCurrent src={`http://localhost:3000/api/files/${avatar}`} />
+      <ImgAvatarCurrent src={`http://localhost:3000/api/files${avatar}`} />
       <Message>
         <TextMessage>
           <Emoji text={message.text} />

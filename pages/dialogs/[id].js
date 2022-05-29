@@ -80,14 +80,14 @@ class Id extends Component {
     });
     SocketService.off("messageFromOpenChat", this.onMessage);
     this.setState({ messages: [] });
-
   }
 
   render() {
     const { messages } = this.state;
+    const dialogId = this.props.router.query.id;
     return (
       <MessageContext.Provider value={{ messages }}>
-        <DialogContainer />
+        <DialogContainer dialogId={dialogId}/>
       </MessageContext.Provider>
     );
   }

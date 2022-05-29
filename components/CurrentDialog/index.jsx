@@ -9,7 +9,7 @@ import { OpenedDialog, MainItems, Messages } from "./styled";
 import { Button } from "@material-ui/core";
 import { useRouter } from "next/router";
 
-export const DialogContainer = memo(() => {
+export const DialogContainer = memo(({ dialogId }) => {
   const [isLayoutOpened, setLayoutOpened] = useState(false);
   const { messages } = useContext(MessageContext);
   const [message, setMessage] = useState("");
@@ -19,7 +19,6 @@ export const DialogContainer = memo(() => {
       router.push("/dialogs");
     }
   };
-  console.log(messages, "messages");
   useEffect(() => {
     const block = document.getElementById("CurrentDialog");
     block.scrollTop = block.scrollHeight;
@@ -31,14 +30,18 @@ export const DialogContainer = memo(() => {
       <OpenedDialog>
         <MainItems>
           <Header />
-          {messages.length > 20 && (
-            <Button variant="outlined" color="primary">
-              Загрузить еще
-            </Button>
-          )}
+          {/*{messages.length > 20 && (*/}
+          {/*  <Button variant="outlined" color="primary">*/}
+          {/*    Загрузить еще*/}
+          {/*  </Button>*/}
+          {/*)}*/}
           <Messages id="CurrentDialog">
             {messages.map(message => (
-              <DialogsList key={message.id} dialogMessage={message} />
+              <DialogsList
+                key={message.id}
+                dialogMessage={message}
+                dialogId={dialogId}
+              />
             ))}
           </Messages>
           <Footer
